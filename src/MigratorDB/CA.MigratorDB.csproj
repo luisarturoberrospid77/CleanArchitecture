@@ -61,4 +61,7 @@
     <EmbeddedResource Include="SQLScripts\Deployment\*.sql" />
     <EmbeddedResource Include="SQLScripts\PostDeployment\*.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="SQLScripts\PostDeployment\1634091036-SelectQueryGenerator.sql" />
+  </ItemGroup>
 </Project>
