@@ -27,7 +27,5 @@
     <Folder Include="DTO\" />
     <Folder Include="Enumerations\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Interfaces\" />
   </ItemGroup>
-
 </Project>

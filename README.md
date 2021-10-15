@@ -9,8 +9,11 @@
   <li>Documentación incluida en la carpeta <b>Docs</b> para su entendimiento y seguimiento del proyecto.</li>
 </ul>
 
+<h2>Temática:</h2>
+<p>Aplicar la técnica de Scaffolding Entity Framework para el acceso a datos.</p>
+
 <h2>Información adicional.</h2>
 <strong>Autor:</strong> OLIMPO BONILLA RAMIREZ.<br/>
 <strong>versi&oacute;n:</strong> 1.0.24.6035 <br/>
 <strong>Correo electronico:</strong> boraolim@hotmail.com <br />
-<strong>Ultima actualización:</strong> 30 de septiembre de 2021. Ciudad de M&eacute;xico.
+<strong>Ultima actualización:</strong> 14 de octubre de 2021. Ciudad de M&eacute;xico.
