@@ -10,10 +10,10 @@
 </ul>
 
 <h2>Temática:</h2>
-<p>Aplicar la técnica de Scaffolding Entity Framework para el acceso a datos.</p>
+<p>Aplicar la técnica de Fluent API de Entity Framework para el acceso a datos.</p>
 
 <h2>Información adicional.</h2>
 <strong>Autor:</strong> OLIMPO BONILLA RAMIREZ.<br/>
 <strong>versi&oacute;n:</strong> 1.0.24.6035 <br/>
 <strong>Correo electronico:</strong> boraolim@hotmail.com <br />
-<strong>Ultima actualización:</strong> 14 de octubre de 2021. Ciudad de M&eacute;xico.
+<strong>Ultima actualización:</strong> 21 de noviembre de 2021. Ciudad de M&eacute;xico.

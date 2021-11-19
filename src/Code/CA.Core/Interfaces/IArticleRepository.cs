@@ -7,8 +7,8 @@ namespace CA.Core.Interfaces
 {
   public interface IArticleRepository
   {
-    Task<IEnumerable<MtArticle>> GetArticlesAsync();
-    Task<MtArticle> GetArticleAsync(int id);
+    Task<IEnumerable<Article>> GetArticlesAsync();
+    Task<Article> GetArticleAsync(int id);
   }
 }
 

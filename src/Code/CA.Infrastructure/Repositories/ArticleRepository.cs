@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using CA.Core.Entities;
@@ -17,15 +14,15 @@ namespace CA.Infrastructure.Repositories
     private readonly PatosaDbContext _context;
     public ArticleRepository(PatosaDbContext PatosaDbContext) => _context = PatosaDbContext;
 
-    public async Task<MtArticle> GetArticleAsync(int id)
+    public async Task<Article> GetArticleAsync(int id)
     {
-      var _article = await _context.MtArticles.FirstOrDefaultAsync(x => x.SkuId == id);
+      var _article = await _context.Articles.FirstOrDefaultAsync(x => x.SkuId == id);
       return _article;
     }
 
-    public async Task<IEnumerable<MtArticle>> GetArticlesAsync()
+    public async Task<IEnumerable<Article>> GetArticlesAsync()
     {
-      var _articles = await _context.MtArticles.ToListAsync();
+      var _articles = await _context.Articles.ToListAsync();
       return _articles;
     }
   }

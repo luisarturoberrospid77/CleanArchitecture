@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using CA.Core.Entities;
@@ -17,15 +14,15 @@ namespace CA.Infrastructure.Repositories
     private readonly PatosaDbContext _context;
     public ProductTypeRepository(PatosaDbContext PatosaDbContext) => _context = PatosaDbContext;
 
-    public async Task<MtProductType> GetProductTypeAsync(int id)
+    public async Task<ProductType> GetProductTypeAsync(int id)
     {
-      var _productType = await _context.MtProductTypes.FirstOrDefaultAsync(x => x.ProducttypeId == id);
+      var _productType = await _context.ProductTypes.FirstOrDefaultAsync(x => x.ProducttypeId == id);
       return _productType;
     }
 
-    public async Task<IEnumerable<MtProductType>> GetProductTypesAsync()
+    public async Task<IEnumerable<ProductType>> GetProductTypesAsync()
     {
-      var _productType = await _context.MtProductTypes.ToListAsync();
+      var _productType = await _context.ProductTypes.ToListAsync();
       return _productType;
     }
   }

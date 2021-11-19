@@ -18,6 +18,9 @@
 *.p12
 *.deps.*
 *.log
+*.pps
+*.ppsx
+# *.js
 *.orig
 .tmp/
 .vs/

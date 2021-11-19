@@ -32,11 +32,8 @@ namespace CA.MigratorDB
       /* Lectura de opciones del archivo de configuración. */
       services.Configure<ConnectionStringCollection>(options => config.GetSection($"CollectionConnectionStrings").Bind(options));
 
-      /* Inyectamos la clase 'App' */
-      services.AddSingleton<App>();
-
-      /* Otros servicios de la aplicación de la consola. */
-      //services.AddTransient<IUser, User>();
+      /* Contenedor de inversión de control (IoC) => Middleware. */
+      IoC.AddDependency(services);
 
       return services;
     }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Microsoft.EntityFrameworkCore;
@@ -18,15 +15,15 @@ namespace CA.Infrastructure.Repositories
 
     public StoreRepository(PatosaDbContext patosaDbContext) => _patosaDbContext = patosaDbContext;
 
-    public async Task<MtStore> GetStoreAsync(int id)
+    public async Task<Store> GetStoreAsync(int id)
     {
-      var _store = await _patosaDbContext.MtStores.FirstOrDefaultAsync(x => x.StoreId == id);
+      var _store = await _patosaDbContext.Stores.FirstOrDefaultAsync(x => x.StoreId == id);
       return _store;
     }
 
-    public async Task<IEnumerable<MtStore>> GetStoresAsync()
+    public async Task<IEnumerable<Store>> GetStoresAsync()
     {
-      var _stores = await _patosaDbContext.MtStores.ToListAsync();
+      var _stores = await _patosaDbContext.Stores.ToListAsync();
       return _stores;
     }
   }

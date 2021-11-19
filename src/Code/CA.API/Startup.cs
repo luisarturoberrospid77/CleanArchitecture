@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using CA.Core.Interfaces;
 using CA.Infrastructure.Data;
@@ -31,6 +23,7 @@ namespace CA.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      /* Añadir controllers. */
       services.AddControllers();
 
       /* Cadena de conexión al contexto de Base de Datos. */
@@ -38,10 +31,8 @@ namespace CA.Api
         options.UseSqlServer(Configuration.GetConnectionString("PatosaDbContext"));
       });
 
-      /* Contenedor de inversión de control (IoC). */
-      services.AddTransient<IArticleRepository, ArticleRepository>();
-      services.AddTransient<IStoreRepository, StoreRepository>();
-      services.AddTransient<IProductTypeRepository, ProductTypeRepository>();
+      /* Contenedor de inversión de control (IoC) => Middleware. */
+      IoC.AddDependency(services);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

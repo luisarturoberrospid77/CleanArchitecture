@@ -7,7 +7,7 @@ namespace CA.Core.Interfaces
 {
   public interface IProductTypeRepository
   {
-    Task<IEnumerable<MtProductType>> GetProductTypesAsync();
-    Task<MtProductType> GetProductTypeAsync(int id);
+    Task<IEnumerable<ProductType>> GetProductTypesAsync();
+    Task<ProductType> GetProductTypeAsync(int id);
   }
 }
