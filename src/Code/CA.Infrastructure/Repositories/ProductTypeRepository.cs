@@ -14,6 +14,12 @@ namespace CA.Infrastructure.Repositories
     private readonly PatosaDbContext _context;
     public ProductTypeRepository(PatosaDbContext PatosaDbContext) => _context = PatosaDbContext;
 
+    public async Task AddProductType(ProductType obj)
+    {
+      _context.ProductTypes.Add(obj);
+      await _context.SaveChangesAsync();
+    }
+
     public async Task<ProductType> GetProductTypeAsync(int id)
     {
       var _productType = await _context.ProductTypes.FirstOrDefaultAsync(x => x.ProducttypeId == id);

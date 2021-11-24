@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using CA.Core.Entities;
 using CA.Core.Interfaces;
 
 namespace CA.Api.Controllers
@@ -23,6 +24,13 @@ namespace CA.Api.Controllers
     {
       var _productType = await _productTypeRepository.GetProductTypeAsync(id);
       return Ok(_productType);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(ProductType obj)
+    {
+      await _productTypeRepository.AddProductType(obj);
+      return Ok(obj);
     }
   }
 }

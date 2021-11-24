@@ -14,6 +14,12 @@ namespace CA.Infrastructure.Repositories
     private readonly PatosaDbContext _context;
     public ArticleRepository(PatosaDbContext PatosaDbContext) => _context = PatosaDbContext;
 
+    public async Task AddArticle(Article obj)
+    {
+      _context.Articles.Add(obj);
+      await _context.SaveChangesAsync();
+    }
+
     public async Task<Article> GetArticleAsync(int id)
     {
       var _article = await _context.Articles.FirstOrDefaultAsync(x => x.SkuId == id);

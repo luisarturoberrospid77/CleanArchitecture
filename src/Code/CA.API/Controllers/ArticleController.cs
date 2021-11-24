@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using CA.Core.Entities;
 using CA.Core.Interfaces;
 
 namespace CA.Api.Controllers
@@ -18,6 +19,7 @@ namespace CA.Api.Controllers
       var _articles = await _articleRepository.GetArticlesAsync();
       return Ok(_articles);
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetArticles(int id)
     {
@@ -25,5 +27,11 @@ namespace CA.Api.Controllers
       return Ok(_article);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Post(Article obj)
+    {
+      await _articleRepository.AddArticle(obj);
+      return Ok(obj);
+    }
   }
 }

@@ -9,5 +9,6 @@ namespace CA.Core.Interfaces
   {
     Task<IEnumerable<ProductType>> GetProductTypesAsync();
     Task<ProductType> GetProductTypeAsync(int id);
+    Task AddProductType(ProductType obj);
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using CA.Core.Entities;
 using CA.Core.Interfaces;
 
 namespace CA.Api.Controllers
@@ -25,6 +26,13 @@ namespace CA.Api.Controllers
     {
       var _store = await _storeRepository.GetStoreAsync(id);
       return Ok(_store);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(Store obj)
+    {
+      await _storeRepository.AddStore(obj);
+      return Ok(obj);
     }
 
   }

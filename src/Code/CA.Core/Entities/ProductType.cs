@@ -15,6 +15,7 @@ namespace CA.Core.Entities
     public int AccountId { get; set; }
     public DateTime Creationdate { get; set; }
     public DateTime? Updatedate { get; set; }
+
     public virtual User Account { get; set; }
     public virtual ICollection<Article> MtArticles { get; set; }
   }

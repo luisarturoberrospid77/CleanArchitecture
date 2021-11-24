@@ -9,6 +9,7 @@ namespace CA.Core.Interfaces
   {
     Task<IEnumerable<Article>> GetArticlesAsync();
     Task<Article> GetArticleAsync(int id);
+    Task AddArticle(Article obj);
   }
 }
 
