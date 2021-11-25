@@ -1,6 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 
+using CA.Core.DTO;
 using CA.Core.Entities;
 using CA.Core.Interfaces;
 
@@ -11,25 +17,35 @@ namespace CA.Api.Controllers
   public class ProductTypeController : ControllerBase
   {
     private readonly IProductTypeRepository _productTypeRepository;
-    public ProductTypeController(IProductTypeRepository articleRepository) => _productTypeRepository = articleRepository;
+    private readonly IMapper _mapper;
+
+    public ProductTypeController(IMapper mapper, IProductTypeRepository productTypeRepository)
+    {
+      _mapper = mapper; _productTypeRepository = productTypeRepository;
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetProductTypes()
     {
       var _productTypes = await _productTypeRepository.GetProductTypesAsync();
-      return Ok(_productTypes);
+      var _productTypesDTO = _mapper.Map<IEnumerable<ProductTypeDTO>>(_productTypes);
+      return Ok(_productTypesDTO);
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProductTypes(int id)
     {
       var _productType = await _productTypeRepository.GetProductTypeAsync(id);
-      return Ok(_productType);
+      var _productTypeDTO = _mapper.Map<ProductTypeDTO>(_productType);
+      return Ok(_productTypeDTO);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(ProductType obj)
+    public async Task<IActionResult> Post(ProductTypeDTO obj)
     {
-      await _productTypeRepository.AddProductType(obj);
+      var _productType = _mapper.Map<ProductType>(obj);
+      _productType.Creationdate = DateTime.Now;
+      await _productTypeRepository.AddProductType(_productType);
       return Ok(obj);
     }
   }

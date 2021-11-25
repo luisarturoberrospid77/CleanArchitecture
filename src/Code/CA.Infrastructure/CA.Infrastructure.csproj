@@ -16,7 +16,7 @@
     <Product>CleanArchitecture.Infrastructure.dll</Product>
     <Description>Clean Architecture Infrastructure layer library for .NET Core 3.1.</Description>
     <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/10/12.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/11/27.</PackageReleaseNotes>
     <PackageTags>CleanArchitecture, CleanArchitecture.Infrastructure.dll</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">

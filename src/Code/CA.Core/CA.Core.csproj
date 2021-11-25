@@ -16,7 +16,7 @@
     <Product>CleanArchitecture.Core.dll</Product>
     <Description>Clean Architecture Domain layer library for .NET Core 3.1.</Description>
     <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/10/12.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/11/27.</PackageReleaseNotes>
     <PackageTags>CleanArchitecture, CleanArchitecture.Core.dll</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -24,7 +24,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
     <Folder Include="Enumerations\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>

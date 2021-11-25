@@ -1,6 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 
+using CA.Core.DTO;
 using CA.Core.Entities;
 using CA.Core.Interfaces;
 
@@ -11,26 +17,35 @@ namespace CA.Api.Controllers
   public class ArticleController : ControllerBase
   {
     private readonly IArticleRepository _articleRepository;
-    public ArticleController(IArticleRepository articleRepository) => _articleRepository = articleRepository;
+    private readonly IMapper _mapper;
+
+    public ArticleController(IMapper mapper, IArticleRepository articleRepository)
+    {
+      _mapper = mapper; _articleRepository = articleRepository;
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetArticles()
     {
       var _articles = await _articleRepository.GetArticlesAsync();
-      return Ok(_articles);
+      var _articlesDTO = _mapper.Map<IEnumerable<ArticleDTO>>(_articles);
+      return Ok(_articlesDTO);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetArticles(int id)
     {
       var _article = await _articleRepository.GetArticleAsync(id);
-      return Ok(_article);
+      var _articleDTO = _mapper.Map<ArticleDTO>(_article);
+      return Ok(_articleDTO);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Article obj)
+    public async Task<IActionResult> Post(ArticleDTO obj)
     {
-      await _articleRepository.AddArticle(obj);
+      var _article = _mapper.Map<Article>(obj);
+      _article.Creationdate = DateTime.Now;
+      await _articleRepository.AddArticle(_article);
       return Ok(obj);
     }
   }

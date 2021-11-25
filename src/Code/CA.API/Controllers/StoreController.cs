@@ -1,6 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using AutoMapper;
+
 using Microsoft.AspNetCore.Mvc;
 
+using CA.Core.DTO;
 using CA.Core.Entities;
 using CA.Core.Interfaces;
 
@@ -11,29 +17,36 @@ namespace CA.Api.Controllers
   public class StoreController : ControllerBase
   {
     private readonly IStoreRepository _storeRepository;
+    private readonly IMapper _mapper;
 
-    public StoreController(IStoreRepository storeRepository) => _storeRepository = storeRepository;
+    public StoreController(IMapper mapper, IStoreRepository storeRepository)
+    {
+      _mapper = mapper; _storeRepository = storeRepository;
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetStores()
     {
       var _stores = await _storeRepository.GetStoresAsync();
-      return Ok(_stores);
+      var _storesDTO = _mapper.Map<IEnumerable<StoreDTO>>(_stores);
+      return Ok(_storesDTO);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetStore(int id)
     {
       var _store = await _storeRepository.GetStoreAsync(id);
-      return Ok(_store);
+      var _storeDTO = _mapper.Map<StoreDTO>(_store);
+      return Ok(_storeDTO);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Store obj)
+    public async Task<IActionResult> Post(StoreDTO obj)
     {
-      await _storeRepository.AddStore(obj);
+      var _store = _mapper.Map<Store>(obj);
+      _store.Creationdate = DateTime.Now;
+      await _storeRepository.AddStore(_store);
       return Ok(obj);
     }
-
   }
 }
