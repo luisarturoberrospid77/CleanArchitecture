@@ -1,13 +1,11 @@
-﻿
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using CA.Infrastructure.Data;
 using CA.Infrastructure.Mappings;
+using CA.Infrastructure.Extensions.ServiceCollection;
+using CA.Infrastructure.Extensions.ApplicationBuilder;
 
 namespace CA.Api
 {
@@ -31,19 +29,10 @@ namespace CA.Api
 
       /* Añadir controllers y configurando JSON para evitar referencias circulares, ignorando atributos nulos y 
        * formateando los atributos en notación "CamelCase", así como ajustando la zona horaria a meridiano local. */
-      services.AddControllers()
-              .AddNewtonsoftJson(options =>
-              {
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
-                options.UseCamelCasing(false);
-              });
+      CtrlCfg.AddControllersExtend(services);
 
       /* Cadena de conexión al contexto de Base de Datos. */
-      services.AddDbContext<PatosaDbContext>(options => {
-        options.UseSqlServer(Configuration.GetConnectionString("PatosaDbContext"));
-      });
+      DbCtx.AddDbContexts(services, Configuration);
 
       /* Contenedor de inversión de control (IoC) => Middleware. */
       IoC.AddDependency(services);
@@ -52,21 +41,7 @@ namespace CA.Api
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
-
-      app.UseHttpsRedirection();
-
-      app.UseRouting();
-
-      app.UseAuthorization();
-
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapControllers();
-      });
+      DefaultCfg.InitConfigurationAPI(app, env);
     }
   }
 }
