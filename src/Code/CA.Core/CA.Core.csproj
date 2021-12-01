@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <AssemblyName>CA.Core</AssemblyName>
     <RootNamespace>CA.Core</RootNamespace>
-    <NoWarn>1701;1702;NU1701;1701;1571;1723;1710;1702;1573;1572;0414;0169;1591;0219;8002</NoWarn>
+    <NoWarn>$(NoWarn);1701;1702;NU1701;1571;1723;1710;1573;1572;0414;0169;1591;0219;8002;AD0001</NoWarn>
 
     <!-- Información del ensamblado. -->
     <Version>1.0.24.6035</Version>

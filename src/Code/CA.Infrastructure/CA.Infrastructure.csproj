@@ -5,7 +5,7 @@
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <AssemblyName>CA.Infrastructure</AssemblyName>
     <RootNamespace>CA.Infrastructure</RootNamespace>
-    <NoWarn>1701;1702;NU1701;1701;1571;1723;1710;1702;1573;1572;0414;0169;1591;0219;8002</NoWarn>
+    <NoWarn>$(NoWarn);1701;1702;NU1701;1571;1723;1710;1573;1572;0414;0169;1591;0219;8002;AD0001</NoWarn>
 
     <!-- Información del ensamblado. -->
     <Version>1.0.24.6035</Version>
@@ -28,11 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
@@ -45,6 +42,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 
 </Project>
