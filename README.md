@@ -11,7 +11,7 @@
 </ul>
 
 <h3>Topic:</h3>
-<p>Concept of Fluent Validation and ActionFilters in ASP.NET Core.</p>
+<p>Concept of CQRS and Mediator Design Patterns for CRUD operations.</p>
 
 <hr/>
 
@@ -26,7 +26,7 @@
 </ul>
 
 <h3>Temática:</h3>
-<p>Concepto de Validación Fluida y Filtros de acción en ASP.NET Core.</p>
+<p>Concepto de los patrones de diseño CQRS y Mediator para operaciones CRUD.</p>
 
 <hr/>
 
@@ -34,4 +34,4 @@
 <strong>Autor:</strong> OLIMPO BONILLA RAMIREZ.<br/>
 <strong>Versi&oacute;n:</strong> 1.0.24.6035 <br/>
 <strong>Correo electr&oacute;nico:</strong> boraolim@hotmail.com <br />
-<strong>&Uacute;ltima actualizaci&oacute;n:</strong> 1o. de diciembre de 2021. Ciudad de M&eacute;xico.
+<strong>&Uacute;ltima actualizaci&oacute;n:</strong> 7 de abril de 2021. Ciudad de M&eacute;xico.
