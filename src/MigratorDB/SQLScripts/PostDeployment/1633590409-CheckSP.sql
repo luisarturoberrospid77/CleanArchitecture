@@ -5,6 +5,7 @@
 -- Fecha: 2021-10-07.
 -- Comentarios: Ejecutar aquí para cuestiones de pruebas todo lo que se ha implementado en la Base de Datos.
 
-exec sp_refreshview @viewname =  'dbo.vw_articles';
+exec sp_refreshview @viewname =  'dbo.vwMenuSystem';
+exec sp_refreshview @viewname =  'dbo.vwMenuCategories';
 
 -- 1633590409-CheckSP.sql

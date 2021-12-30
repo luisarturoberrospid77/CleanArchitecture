@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using CA.Core.Entities.Base;
 
 namespace CA.Core.Entities
 {
-  public partial class Store
+  public partial class Store : EntityBase<int>
   {
     public Store()
     {
-      MtArticles = new HashSet<Article>();
+      Orders = new HashSet<Order>();
+      StockInventoryOriginStores = new HashSet<StockInventory>();
+      StockInventoryPostingStores = new HashSet<StockInventory>();
     }
 
-    public int StoreId { get; set; }
     public string Name { get; set; }
     public string Address { get; set; }
-    public int AccountId { get; set; }
-    public DateTime Creationdate { get; set; }
-    public DateTime? Updatedate { get; set; }
 
-    public virtual User Account { get; set; }
-    public virtual ICollection<Article> MtArticles { get; set; }
+    public virtual User AccountIdCreationdateNavigation { get; set; }
+    public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<StockInventory> StockInventoryOriginStores { get; set; }
+    public virtual ICollection<StockInventory> StockInventoryPostingStores { get; set; }
   }
 }

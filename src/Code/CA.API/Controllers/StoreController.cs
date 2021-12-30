@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-
-using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 
 using CA.Core.DTO;
-using CA.Core.Entities;
-using CA.Core.Interfaces;
+using CA.Core.Wrappers;
+using CA.Core.Interfaces.Services;
 
 namespace CA.Api.Controllers
 {
@@ -16,37 +13,54 @@ namespace CA.Api.Controllers
   [ApiController]
   public class StoreController : ControllerBase
   {
-    private readonly IStoreRepository _storeRepository;
-    private readonly IMapper _mapper;
+    private readonly IStoreService _storeService;
 
-    public StoreController(IMapper mapper, IStoreRepository storeRepository)
+    public StoreController(IStoreService storeService)
     {
-      _mapper = mapper; _storeRepository = storeRepository;
+      _storeService = storeService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetStores()
     {
-      var _stores = await _storeRepository.GetStoresAsync();
-      var _storesDTO = _mapper.Map<IEnumerable<StoreDTO>>(_stores);
-      return Ok(_storesDTO);
+      var response = new ApiResponse<IEnumerable<StoreDTO>>(await _storeService.GetStores());
+      return Ok(response);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetStore(int id)
     {
-      var _store = await _storeRepository.GetStoreAsync(id);
-      var _storeDTO = _mapper.Map<StoreDTO>(_store);
-      return Ok(_storeDTO);
+      StoreDTO _storeDTO = await _storeService.FindStoreAsync(id);
+
+      if (_storeDTO == null)
+        return NotFound();
+
+      var response = new ApiResponse<StoreDTO>(_storeDTO);
+      return Ok(response);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(StoreDTO obj)
+    public async Task<IActionResult> Post(CreateStoreDTO obj)
     {
-      var _store = _mapper.Map<Store>(obj);
-      _store.Creationdate = DateTime.Now;
-      await _storeRepository.AddStore(_store);
-      return Ok(obj);
+      obj = await _storeService.InsertStoreAsync(obj);
+      var response = new ApiResponse<CreateStoreDTO>(obj);
+      return Ok(response);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Put(UpdateStoreDTO obj)
+    {
+      obj = await _storeService.UpdateStoreAsync(obj);
+      var response = new ApiResponse<UpdateStoreDTO>(obj);
+      return Ok(response);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteStoreDTO obj)
+    {
+      await _storeService.DeleteStoreAsync(obj, obj.AutoSave);
+      var response = new ApiResponse<DeleteStoreDTO>(obj);
+      return Ok(response);
     }
   }
 }

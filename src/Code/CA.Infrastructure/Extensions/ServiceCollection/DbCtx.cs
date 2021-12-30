@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using CA.Infrastructure.Data;
+using CA.Infrastructure.Persistence.Data;
 
 namespace CA.Infrastructure.Extensions.ServiceCollection
 {
@@ -10,9 +10,8 @@ namespace CA.Infrastructure.Extensions.ServiceCollection
   {
     public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
     {
-      services.AddDbContext<PatosaDbContext>(options => {
-        options.UseSqlServer(configuration.GetConnectionString("PatosaDbContext"));
-      });
+      services.AddDbContext<PatosaDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("PatosaDbContext")); });
+
       return services;
     }
   }

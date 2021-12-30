@@ -16,7 +16,7 @@
     <Product>CleanArchitecture.Infrastructure.dll</Product>
     <Description>Clean Architecture Infrastructure layer library for .NET Core 3.1.</Description>
     <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/11/27.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/12/30.</PackageReleaseNotes>
     <PackageTags>CleanArchitecture, CleanArchitecture.Infrastructure.dll</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -24,10 +24,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Validators\BrandExtensions\AddAccountIdArticle.cs" />
+    <Compile Remove="Validators\BrandExtensions\AddDescriptionArticle.cs" />
+    <Compile Remove="Validators\SupplierExtensions\AddAccountIdStore.cs" />
+    <Compile Remove="Validators\SupplierExtensions\AddAdressStore.cs" />
+    <Compile Remove="Validators\SupplierExtensions\AddNameStore.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CA.Core\CA.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.GuardClauses" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />

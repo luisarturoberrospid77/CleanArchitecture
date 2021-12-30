@@ -1,14 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-
-using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 
 using CA.Core.DTO;
-using CA.Core.Entities;
-using CA.Core.Interfaces;
+using CA.Core.Wrappers;
+using CA.Core.Interfaces.Services;
 
 namespace CA.Api.Controllers
 {
@@ -16,37 +13,46 @@ namespace CA.Api.Controllers
   [ApiController]
   public class ArticleController : ControllerBase
   {
-    private readonly IArticleRepository _articleRepository;
-    private readonly IMapper _mapper;
+    private readonly IArticleService _articleService;
 
-    public ArticleController(IMapper mapper, IArticleRepository articleRepository)
+    public ArticleController(IArticleService articleService)
     {
-      _mapper = mapper; _articleRepository = articleRepository;
+      _articleService = articleService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetArticles()
     {
-      var _articles = await _articleRepository.GetArticlesAsync();
-      var _articlesDTO = _mapper.Map<IEnumerable<ArticleDTO>>(_articles);
-      return Ok(_articlesDTO);
+      var response = new ApiResponse<IEnumerable<ArticleDTO>>(await _articleService.GetArticles());
+      return Ok(response);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetArticles(int id)
     {
-      var _article = await _articleRepository.GetArticleAsync(id);
-      var _articleDTO = _mapper.Map<ArticleDTO>(_article);
-      return Ok(_articleDTO);
+      ArticleDTO _articleDTO = await _articleService.FindArticleAsync(id);
+
+      if (_articleDTO == null)
+        return NotFound();
+
+      var response = new ApiResponse<ArticleDTO>(_articleDTO);
+      return Ok(response);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(ArticleDTO obj)
+    public async Task<IActionResult> Post(CreateArticleDTO obj)
     {
-      var _article = _mapper.Map<Article>(obj);
-      _article.Creationdate = DateTime.Now;
-      await _articleRepository.AddArticle(_article);
-      return Ok(obj);
+      obj = await _articleService.InsertArticleAsync(obj);
+      var response = new ApiResponse<CreateArticleDTO>(obj);
+      return Ok(response);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Put(UpdateArticleDTO obj)
+    {
+      obj = await _articleService.UpdateArticleAsync(obj);
+      var response = new ApiResponse<UpdateArticleDTO>(obj);
+      return Ok(response);
     }
   }
 }

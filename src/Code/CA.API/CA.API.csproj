@@ -16,7 +16,7 @@
     <Product>CleanArchitecture.Presentation.dll</Product>
     <Description>Clean Architecture Presentation layer library for .NET Core 3.1.</Description>
     <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/11/27.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2021/12/30.</PackageReleaseNotes>
     <PackageTags>CleanArchitecture, CleanArchitecture.Api.dll</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -28,5 +28,11 @@
     <ProjectReference Include="..\CA.Infrastructure\CA.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>    
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

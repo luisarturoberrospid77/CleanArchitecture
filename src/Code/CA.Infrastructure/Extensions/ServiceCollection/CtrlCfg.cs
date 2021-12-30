@@ -20,9 +20,11 @@ namespace CA.Infrastructure.Extensions.ServiceCollection
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;       
         options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
+        options.SerializerSettings.FloatFormatHandling = Newtonsoft.Json.FloatFormatHandling.DefaultValue;
+        options.SerializerSettings.FloatParseHandling = Newtonsoft.Json.FloatParseHandling.Decimal;
         options.UseCamelCasing(false);
       }).AddFluentValidation(options => {
-        options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()); ;
+        options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
       });
       return services;
     }
