@@ -10,11 +10,11 @@ using CA.Domain.Interfaces.Services;
 
 namespace CA.Application.Handlers.Query
 {
-  public class GetMovementArticleHandler : IRequestHandler<GetMovementArticleQuery, MovementArticleDTO>
-  {
-    private readonly IMovementArticleService _movementService;
-    public GetMovementArticleHandler(IMovementArticleService movementService) => _movementService = movementService;
-    public async Task<MovementArticleDTO> Handle(GetMovementArticleQuery request, CancellationToken cancellationToken) =>
-      await _movementService.FindMovementArticleAsync(request.Id, cancellationToken);
-  }
+    public class GetMovementArticleHandler : IRequestHandler<GetMovementArticleQuery, MovementArticleDTO>
+    {
+        private readonly IMovementArticleService _movementService;
+        public GetMovementArticleHandler(IMovementArticleService movementService) => _movementService = movementService;
+        public async Task<MovementArticleDTO> Handle(GetMovementArticleQuery request, CancellationToken cancellationToken) =>
+            await _movementService.FindMovementArticleAsync(request.Id, cancellationToken);
+    }
 }

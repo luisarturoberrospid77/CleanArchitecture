@@ -11,12 +11,13 @@ using CA.Domain.Interfaces.Base;
 
 namespace CA.Domain.Interfaces.Repository
 {
-  public interface ICategoryRepository<TContext> : IBaseRepository<MenuCategory, TContext>
-    where TContext : DbContext, new()
-  {
-    Task<IEnumerable<MenuCategory>> GetCategoryAsync(CancellationToken cancellationToken = default);
-    Task<MenuCategory> GetCategoryAsync(int id, CancellationToken cancellationToken = default);
-    Task<MenuCategory> SingleCategoryAsync(Expression<Func<MenuCategory, bool>> predicate, CancellationToken cancellationToken = default);
-    Task<IEnumerable<MenuCategory>> FilterCategoryAsync(Expression<Func<MenuCategory, bool>> predicate, CancellationToken cancellationToken = default);
-  }
+    public interface ICategoryRepository<TContext> : IBaseRepository<MenuCategory, TContext>
+        where TContext : DbContext, new()
+    {
+        Task<IEnumerable<MenuCategory>> GetCategoriesAsync(CancellationToken cancellationToken = default);
+        Task<MenuCategory> GetCategoryAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<MenuCategory>> GetPagedCategoriesAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+        Task<MenuCategory> SingleCategoryAsync(Expression<Func<MenuCategory, bool>> predicate, CancellationToken cancellationToken = default);
+        Task<IEnumerable<MenuCategory>> FilterCategoryAsync(Expression<Func<MenuCategory, bool>> predicate, CancellationToken cancellationToken = default);
+    }
 }

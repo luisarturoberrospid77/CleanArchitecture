@@ -5,13 +5,13 @@ using CA.Domain.Features;
 
 namespace CA.Application.Validators
 {
-  public class UpdateAccountIdBrand : AbstractValidator<UpdateBrandDTO>
-  {
-    public UpdateAccountIdBrand()
+    public class UpdateAccountIdBrand : AbstractValidator<UpdateBrandDTO>
     {
-      RuleFor(u => u.AccountIdUpdateDate).Cascade(CascadeMode.Stop)
-                                         .Must(u => u >= 1).WithMessage("El identificador de la cuenta de usuario no puede ser negativo o cero.")
-                                         .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        public UpdateAccountIdBrand()
+        {
+            RuleFor(u => u.AccountIdUpdateDate).Cascade(CascadeMode.Stop)
+                                               .Must(u => u >= 1).WithMessage("El identificador de la cuenta de usuario no puede ser negativo o cero.")
+                                               .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        }
     }
-  }
 }

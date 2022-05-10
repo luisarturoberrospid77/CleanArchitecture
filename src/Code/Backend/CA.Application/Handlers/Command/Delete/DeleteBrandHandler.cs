@@ -9,14 +9,14 @@ using CA.Domain.Interfaces.Services;
 
 namespace CA.Application.Handlers.Command
 {
-  public class DeleteBrandHandler : IRequestHandler<DeleteBrandDTO, ApiResponse<DeleteBrandDTO>>
-  {
-    private readonly IBrandService _brandService;
-    public DeleteBrandHandler(IBrandService brandService) => _brandService = brandService;
-    public async Task<ApiResponse<DeleteBrandDTO>> Handle(DeleteBrandDTO request, CancellationToken cancellationToken)
+    public class DeleteBrandHandler : IRequestHandler<DeleteBrandDTO, ApiResponse<DeleteBrandDTO>>
     {
-      var entity = await _brandService.DeleteBrandAsync(request, request.AutoSave, cancellationToken);
-      return new ApiResponse<DeleteBrandDTO>(entity, $"The brand with Id {entity.Id} was successfully deleted.");
+        private readonly IBrandService _brandService;
+        public DeleteBrandHandler(IBrandService brandService) => _brandService = brandService;
+        public async Task<ApiResponse<DeleteBrandDTO>> Handle(DeleteBrandDTO request, CancellationToken cancellationToken)
+        {
+            var entity = await _brandService.DeleteBrandAsync(request, request.AutoSave, cancellationToken);
+            return new ApiResponse<DeleteBrandDTO>(entity, $"The brand with Id {entity.Id} was successfully deleted.");
+        }
     }
-  }
 }

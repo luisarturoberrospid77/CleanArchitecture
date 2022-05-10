@@ -4,13 +4,13 @@ using CA.Domain.DTO;
 
 namespace CA.Application.Validators
 {
-  public class DeleteCodeValueValidator : AbstractValidator<DeleteCodeValueDTO>
-  {
-    public DeleteCodeValueValidator()
+    public class DeleteCodeValueValidator : AbstractValidator<DeleteCodeValueDTO>
     {
-      Include(new DeleteIdCodeValue());
-      Include(new DeleteAutoSaveCodeValue());
-      Include(new DeleteAccountIdCodeValue());
+        public DeleteCodeValueValidator()
+        {
+            Include(new DeleteIdCodeValue());
+            Include(new DeleteAutoSaveCodeValue());
+            Include(new DeleteAccountIdCodeValue());
+        }
     }
-  }
 }

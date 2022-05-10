@@ -4,15 +4,15 @@ using CA.Domain.DTO;
 
 namespace CA.Application.Validators
 {
-  public class DeleteArticleValidator : AbstractValidator<DeleteArticleDTO>
-  {
-    public DeleteArticleValidator()
+    public class DeleteArticleValidator : AbstractValidator<DeleteArticleDTO>
     {
-      CascadeMode = CascadeMode.Stop;
+        public DeleteArticleValidator()
+        {
+            ClassLevelCascadeMode = CascadeMode.Stop;
 
-      Include(new DeleteAccountIdArticle());
-      Include(new DeleteAutoSaveArticle());
-      Include(new DeleteIdArticle());
+            Include(new DeleteAccountIdArticle());
+            Include(new DeleteAutoSaveArticle());
+            Include(new DeleteIdArticle());
+        }
     }
-  }
 }

@@ -4,13 +4,13 @@ using CA.Domain.DTO;
 
 namespace CA.Application.Validators
 {
-  public class UpdateBrandValidator : AbstractValidator<UpdateBrandDTO>
-  {
-    public UpdateBrandValidator()
+    public class UpdateBrandValidator : AbstractValidator<UpdateBrandDTO>
     {
-      Include(new UpdateIdBrand());
-      Include(new UpdateNameBrand());
-      Include(new UpdateAccountIdBrand());
+        public UpdateBrandValidator()
+        {
+            Include(new UpdateIdBrand());
+            Include(new UpdateNameBrand());
+            Include(new UpdateAccountIdBrand());
+        }
     }
-  }
 }

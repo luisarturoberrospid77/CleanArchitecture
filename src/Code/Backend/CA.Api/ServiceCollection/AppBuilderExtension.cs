@@ -6,18 +6,18 @@ using CA.API.Middleware;
 
 namespace CA.Api.ServiceCollection
 {
-  public static class AppBuilderExtension
-  {
-    public static void InitConfigurationAPI(this IApplicationBuilder app, IWebHostEnvironment env)
+    public static class AppBuilderExtension
     {
-      if (env.IsDevelopment())
-        app.UseDeveloperExceptionPage();
+        public static void InitConfigurationAPI(this IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
 
-      app.UseHttpsRedirection();
-      app.UseRouting();
-      app.UseAuthorization();
-      app.UseMiddleware<ErrorHandlerMiddleware>();
-      app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
     }
-  }
 }

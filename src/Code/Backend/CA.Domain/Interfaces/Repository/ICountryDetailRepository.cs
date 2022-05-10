@@ -11,12 +11,13 @@ using CA.Domain.Interfaces.Base;
 
 namespace CA.Domain.Interfaces.Repository
 {
-  public interface ICountryDetailRepository<TContext> : IBaseRepository<CountryDetail, TContext>
-    where TContext : DbContext, new()
-  {
-    Task<IEnumerable<CountryDetail>> GetCountryDetailAsync(CancellationToken cancellationToken = default);
-    Task<CountryDetail> GetCountryDetailAsync(int id, CancellationToken cancellationToken = default);
-    Task<CountryDetail> SingleCountryDetailAsync(Expression<Func<CountryDetail, bool>> predicate, CancellationToken cancellationToken = default);
-    Task<IEnumerable<CountryDetail>> FilterCountryDetailAsync(Expression<Func<CountryDetail, bool>> predicate, CancellationToken cancellationToken = default);
-  }
+    public interface ICountryDetailRepository<TContext> : IBaseRepository<CountryDetail, TContext>
+        where TContext : DbContext, new()
+    {
+        Task<IEnumerable<CountryDetail>> GetCountryDetailsAsync(CancellationToken cancellationToken = default);
+        Task<CountryDetail> GetCountryDetailAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CountryDetail>> GetPagedCountryDetailsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+        Task<CountryDetail> SingleCountryDetailAsync(Expression<Func<CountryDetail, bool>> predicate, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CountryDetail>> FilterCountryDetailAsync(Expression<Func<CountryDetail, bool>> predicate, CancellationToken cancellationToken = default);
+    }
 }

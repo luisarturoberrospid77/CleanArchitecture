@@ -5,13 +5,13 @@ using CA.Domain.Features;
 
 namespace CA.Application.Validators
 {
-  public class AddNeighborhoodCodeStore : AbstractValidator<CreateStoreDTO>
-  {
-    public AddNeighborhoodCodeStore()
+    public class AddNeighborhoodCodeStore : AbstractValidator<CreateStoreDTO>
     {
-      RuleFor(u => u.NeighborhoodCode).Cascade(CascadeMode.Stop)
-                                      .Must(u => u >= 1).WithMessage("El identificador de la colonia o comunidad del proveedor no puede ser negativo o cero.")
-                                      .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        public AddNeighborhoodCodeStore()
+        {
+            RuleFor(u => u.NeighborhoodCode).Cascade(CascadeMode.Stop)
+                                            .Must(u => u >= 1).WithMessage("El identificador de la colonia o comunidad del proveedor no puede ser negativo o cero.")
+                                            .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        }
     }
-  }
 }

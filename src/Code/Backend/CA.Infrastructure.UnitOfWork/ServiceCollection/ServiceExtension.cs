@@ -6,13 +6,13 @@ using CA.Infrastructure.Persistence.Data;
 
 namespace CA.Infrastructure.UnitOfWork.ServiceCollection
 {
-  public static class ServiceExtension
-  {
-    public static void AddUnitOfWorkLayer(this IServiceCollection services)
+    public static class ServiceExtension
     {
-      /* Factory y Unit Of Work. */
-      services.AddScoped<IDbFactory<PatosaDbContext>, DbFactory<PatosaDbContext>>();
-      services.AddScoped<IUnitOfWork<PatosaDbContext>, UnitOfWork<PatosaDbContext>>();
+        public static void AddUnitOfWorkLayer(this IServiceCollection services)
+        {
+            /* Factory y Unit Of Work. */
+            services.AddScoped<IDbFactory<PatosaDbContext>, DbFactory<PatosaDbContext>>();
+            services.AddScoped<IUnitOfWork<PatosaDbContext>, UnitOfWork<PatosaDbContext>>();
+        }
     }
-  }
 }

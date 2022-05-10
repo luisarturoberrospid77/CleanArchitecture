@@ -4,13 +4,13 @@ using CA.Domain.DTO;
 
 namespace CA.Application.Validators
 {
-  public class UpdateCodeValueValidator : AbstractValidator<UpdateCodeValueDTO>
-  {
-    public UpdateCodeValueValidator()
+    public class UpdateCodeValueValidator : AbstractValidator<UpdateCodeValueDTO>
     {
-      Include(new UpdateIdCodeValue());
-      Include(new UpdateDescriptionCodeValue());
-      Include(new UpdateAccountIdCodeValue());
+        public UpdateCodeValueValidator()
+        {
+            Include(new UpdateIdCodeValue());
+            Include(new UpdateDescriptionCodeValue());
+            Include(new UpdateAccountIdCodeValue());
+        }
     }
-  }
 }
