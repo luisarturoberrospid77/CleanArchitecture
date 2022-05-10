@@ -1,15 +1,26 @@
-﻿using System.Collections.Generic;
-
-using MediatR;
+﻿using MediatR;
 
 using CA.Domain.DTO;
+using CA.Domain.Parameters;
+using CA.Domain.Wrappers;
+using CA.Domain.Custom;
+using CA.Domain.Entities.Base;
 
 namespace CA.Application.Queries
 {
-  public class GetAllMovementArticleQuery : IRequest<IEnumerable<MovementArticleDTO>> { }
-  public class GetMovementArticleQuery : IRequest<MovementArticleDTO>
-  {
-    public int Id { get; }
-    public GetMovementArticleQuery(int id) => Id = id;
-  }
+    public class GetAllMovementArticleParameter : RequestParameter { }
+    public class GetAllMovementArticleQuery : IRequest<ApiResponse<MetaData<ShapedEntityDTO>>>
+    {
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public string Fields { get; set; }
+        public string Search { get; set; }
+        public string OrderBy { get; set; }
+        public string Route { get; set; }
+    }
+    public class GetMovementArticleQuery : IRequest<MovementArticleDTO>
+    {
+        public int Id { get; }
+        public GetMovementArticleQuery(int id) => Id = id;
+    }
 }

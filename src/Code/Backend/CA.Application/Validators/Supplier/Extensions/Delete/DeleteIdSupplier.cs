@@ -5,13 +5,13 @@ using CA.Domain.Features;
 
 namespace CA.Application.Validators
 {
-  public class DeleteIdSupplier : AbstractValidator<DeleteSupplierDTO>
-  {
-    public DeleteIdSupplier()
+    public class DeleteIdSupplier : AbstractValidator<DeleteSupplierDTO>
     {
-      RuleFor(u => u.Id).Cascade(CascadeMode.Stop)
-                        .Must(u => u >= 0).WithMessage("El identificador del proveedor no puede ser negativo.")
-                        .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        public DeleteIdSupplier()
+        {
+            RuleFor(u => u.Id).Cascade(CascadeMode.Stop)
+                              .Must(u => u >= 0).WithMessage("El identificador del proveedor no puede ser negativo.")
+                              .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        }
     }
-  }
 }

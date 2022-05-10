@@ -5,13 +5,13 @@ using CA.Domain.Features;
 
 namespace CA.Application.Validators
 {
-  public class DeleteIdStore : AbstractValidator<DeleteStoreDTO>
-  {
-    public DeleteIdStore()
+    public class DeleteIdStore : AbstractValidator<DeleteStoreDTO>
     {
-      RuleFor(u => u.Id).Cascade(CascadeMode.Stop)
-                        .Must(u => u >= 0).WithMessage("El identificador de la sucursal no puede ser negativo.")
-                        .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        public DeleteIdStore()
+        {
+            RuleFor(u => u.Id).Cascade(CascadeMode.Stop)
+                              .Must(u => u >= 0).WithMessage("El identificador de la sucursal no puede ser negativo.")
+                              .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        }
     }
-  }
 }

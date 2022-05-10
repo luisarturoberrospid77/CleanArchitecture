@@ -8,16 +8,16 @@ using CA.Infrastructure.Persistence.Data;
 
 namespace CA.Infrastructure.Persistence.ServiceCollection
 {
-  public static class ServiceExtension
-  {
-    public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
+    public static class ServiceExtension
     {
-      /* Contextos de Bases de Datos. */
-      services.AddDbContext<PatosaDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("PatosaDbContext")); });
+        public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
+        {
+            /* Contextos de Bases de Datos. */
+            services.AddDbContext<PatosaDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("PatosaDbContext")); });
 
-      /* DbFactory pattern. */
-      /* Agregar aquí las implementaciones de Factory Pattern, asociadas a cada conexto de Base de Datos... */
-      services.AddScoped<Func<PatosaDbContext>>((provider) => () => provider.GetService<PatosaDbContext>());
+            /* DbFactory pattern. */
+            /* Agregar aquí las implementaciones de Factory Pattern, asociadas a cada conexto de Base de Datos... */
+            services.AddScoped<Func<PatosaDbContext>>((provider) => () => provider.GetService<PatosaDbContext>());
+        }
     }
-  }
 }

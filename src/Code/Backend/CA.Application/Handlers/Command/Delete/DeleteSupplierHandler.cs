@@ -9,14 +9,14 @@ using CA.Domain.Interfaces.Services;
 
 namespace CA.Application.Handlers.Command
 {
-  public class DeleteSupplierHandler : IRequestHandler<DeleteSupplierDTO, ApiResponse<DeleteSupplierDTO>>
-  {
-    private readonly ISupplierService _supplierService;
-    public DeleteSupplierHandler(ISupplierService supplierService) => _supplierService = supplierService;
-    public async Task<ApiResponse<DeleteSupplierDTO>> Handle(DeleteSupplierDTO request, CancellationToken cancellationToken)
+    public class DeleteSupplierHandler : IRequestHandler<DeleteSupplierDTO, ApiResponse<DeleteSupplierDTO>>
     {
-      var entity = await _supplierService.DeleteSupplierAsync(request, request.AutoSave, cancellationToken);
-      return new ApiResponse<DeleteSupplierDTO>(entity, $"The supplier with Id {entity.Id} was successfully deleted.");
+        private readonly ISupplierService _supplierService;
+        public DeleteSupplierHandler(ISupplierService supplierService) => _supplierService = supplierService;
+        public async Task<ApiResponse<DeleteSupplierDTO>> Handle(DeleteSupplierDTO request, CancellationToken cancellationToken)
+        {
+            var entity = await _supplierService.DeleteSupplierAsync(request, request.AutoSave, cancellationToken);
+            return new ApiResponse<DeleteSupplierDTO>(entity, $"The supplier with Id {entity.Id} was successfully deleted.");
+        }
     }
-  }
 }

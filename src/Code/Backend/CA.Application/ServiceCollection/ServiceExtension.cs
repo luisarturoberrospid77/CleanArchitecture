@@ -8,14 +8,14 @@ using CA.Application.Beheaviours;
 
 namespace CA.Application.ServiceCollection
 {
-  public static class ServiceExtension
-  {
-    public static void AddApplicationLayer(this IServiceCollection services)
+    public static class ServiceExtension
     {
-      services.AddAutoMapper(Assembly.GetExecutingAssembly());
-      services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-      services.AddMediatR(Assembly.GetExecutingAssembly());
-      services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        public static void AddApplicationLayer(this IServiceCollection services)
+        {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        }
     }
-  }
 }

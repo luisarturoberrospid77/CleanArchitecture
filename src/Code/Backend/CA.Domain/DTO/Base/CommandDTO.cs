@@ -1,4 +1,4 @@
 ﻿namespace CA.Domain.DTO.Base
 {
-  public abstract class CommandDTO { }
+    public abstract class CommandDTO { }
 }

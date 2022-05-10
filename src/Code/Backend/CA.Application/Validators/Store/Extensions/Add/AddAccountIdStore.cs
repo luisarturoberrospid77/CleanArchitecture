@@ -5,13 +5,13 @@ using CA.Domain.Features;
 
 namespace CA.Application.Validators
 {
-  public class AddAccountIdStore : AbstractValidator<CreateStoreDTO>
-  {
-    public AddAccountIdStore()
+    public class AddAccountIdStore : AbstractValidator<CreateStoreDTO>
     {
-      RuleFor(u => u.AccountIdCreationDate).Cascade(CascadeMode.Stop)
-                                           .Must(u => u >= 1).WithMessage("El identificador de la cuenta de usuario no puede ser negativo o cero.")
-                                           .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        public AddAccountIdStore()
+        {
+            RuleFor(u => u.AccountIdCreationDate).Cascade(CascadeMode.Stop)
+                                                 .Must(u => u >= 1).WithMessage("El identificador de la cuenta de usuario no puede ser negativo o cero.")
+                                                 .Must(u => RegexExtensions.VerifyValue(u, @"^\d{1,6}$")).WithMessage("Formato de número entero incorrecto: solo dígitos.");
+        }
     }
-  }
 }

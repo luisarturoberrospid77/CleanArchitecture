@@ -1,43 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>CA.Api</AssemblyName>
-    <RootNamespace>CA.Api</RootNamespace>
-    <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
-    <NoWarn>$(NoWarn);1701;1702;NU1701;1571;1723;1710;1573;1572;0414;0169;1591;0219;8002;AD0001</NoWarn>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>9.0</LangVersion>
+        <AssemblyName>CA.Api</AssemblyName>
+        <RootNamespace>CA.Api</RootNamespace>
+        <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
+        <NoWarn>$(NoWarn);1701;1702;NU1701;1571;1723;1710;1573;1572;0414;0169;1591;0219;8002;AD0001</NoWarn>
 
-    <!-- Información del ensamblado. -->
-    <Version>1.0.24.6035</Version>
-    <AssemblyVersion>1.0.24.6035</AssemblyVersion>
-    <FileVersion>1.0.24.6035</FileVersion>
-    <Company>Hogar S.A. de C.V.</Company>
-    <Authors>Olimpo Bonilla Ramírez</Authors>
-    <Product>CA.Api.dll</Product>
-    <Description>Clean Architecture Presentation layer library for .NET Core 3.1.</Description>
-    <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2022/04/07.</PackageReleaseNotes>
-    <PackageTags>CleanArchitecture, CA.Api.dll</PackageTags>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-  </PropertyGroup>
+        <!-- Información del ensamblado. -->
+        <Version>1.0.24.6035</Version>
+        <AssemblyVersion>1.0.24.6035</AssemblyVersion>
+        <FileVersion>1.0.24.6035</FileVersion>
+        <Company>Hogar S.A. de C.V.</Company>
+        <Authors>Olimpo Bonilla Ramírez</Authors>
+        <Product>CA.Api.dll</Product>
+        <Description>Clean Architecture Presentation layer library for .NET Core 3.1.</Description>
+        <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
+        <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2022/04/07.</PackageReleaseNotes>
+        <PackageTags>CleanArchitecture, CA.Api.dll</PackageTags>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CA.Application\CA.Application.csproj" />
-    <ProjectReference Include="..\CA.Domain\CA.Domain.csproj" />
-    <ProjectReference Include="..\CA.Infrastructure.Common\CA.Infrastructure.Common.csproj" />
-    <ProjectReference Include="..\CA.Infrastructure.Persistence\CA.Infrastructure.Persistence.csproj" />
-    <ProjectReference Include="..\CA.Infrastructure.UnitOfWork\CA.Infrastructure.UnitOfWork.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CA.Application\CA.Application.csproj" />
+        <ProjectReference Include="..\CA.Domain\CA.Domain.csproj" />
+        <ProjectReference Include="..\CA.Infrastructure.Common\CA.Infrastructure.Common.csproj" />
+        <ProjectReference Include="..\CA.Infrastructure.Persistence\CA.Infrastructure.Persistence.csproj" />
+        <ProjectReference Include="..\CA.Infrastructure.UnitOfWork\CA.Infrastructure.UnitOfWork.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.15">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.15">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>

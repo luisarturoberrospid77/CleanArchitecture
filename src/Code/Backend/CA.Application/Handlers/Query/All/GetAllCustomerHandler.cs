@@ -1,20 +1,67 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using MediatR;
+using Utilities;
+using AutoMapper;
 
 using CA.Domain.DTO;
+using CA.Domain.Custom;
+using CA.Domain.Wrappers;
+using CA.Domain.Entities;
 using CA.Application.Queries;
+using CA.Domain.Entities.Base;
 using CA.Domain.Interfaces.Services;
+using CA.Domain.Interfaces.Management;
 
 namespace CA.Application.Handlers.Query
 {
-  public class GetAllCustomerHandler : IRequestHandler<GetAllCustomerQuery, IEnumerable<CustomerDTO>>
-  {
-    private readonly ICustomerService _customerService;
-    public GetAllCustomerHandler(ICustomerService customerService) => _customerService = customerService;
-    public async Task<IEnumerable<CustomerDTO>> Handle(GetAllCustomerQuery request, CancellationToken cancellationToken) =>
-      await _customerService.GetCustomersAsync(cancellationToken);
-  }
+    public class GetAllCustomerHandler : IRequestHandler<GetAllCustomerQuery, ApiResponse<MetaData<ShapedEntityDTO>>>
+    {
+        private readonly IMapper _mapper;
+        private readonly IUriService _uriService;
+        private readonly IModelHelper _modelHelper;
+        private readonly ICustomerService _customerService;
+        public GetAllCustomerHandler(ICustomerService customerService, IMapper mapper, IModelHelper modelHelper, IUriService uriService) =>
+            (_mapper, _uriService, _modelHelper, _customerService) = (mapper, uriService, modelHelper, customerService);
+        public async Task<ApiResponse<MetaData<ShapedEntityDTO>>> Handle(GetAllCustomerQuery request, CancellationToken cancellationToken)
+        {
+            Expression<Func<Customer, bool>> _expressionLambda = null;
+            var _validFilter = _mapper.Map<GetAllCustomerParameter>(request);
+
+            //filtered fields security & limit to fields in view model
+            if (!string.IsNullOrEmpty(_validFilter.Fields))
+                _validFilter.Fields = _modelHelper.ValidateModelFields<CustomerDTO>(_validFilter.Fields);
+
+            //default fields from view model
+            if (string.IsNullOrEmpty(_validFilter.Fields))
+                _validFilter.Fields = _modelHelper.GetModelFields<CustomerDTO>();
+
+            // Create search criteria, according to the entity of the Database context.
+            if (!string.IsNullOrEmpty(_validFilter.Search))
+            {
+                var _newFilter = new WhereFilter()
+                {
+                    Condition = GroupOp.OR,
+                    Rules = new List<WhereFilter>()
+                    {
+                        new WhereFilter { Field = "FirstName", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } },
+                        new WhereFilter { Field = "LastName", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } },
+                        new WhereFilter { Field = "Address", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } },
+                        new WhereFilter { Field = "Email", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } },
+                        new WhereFilter { Field = "CurpCode", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } },
+                        new WhereFilter { Field = "RfcCode", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } },
+                        new WhereFilter { Field = "NumberPhone", Operator = WhereConditionsOp.Contains, Data = new[] { _validFilter.Search } }
+                    }
+                };
+                _expressionLambda = QueryBuilder.BuildExpressionLambda<Customer>(_newFilter, new BuildExpressionOptions() { ParseDatesAsUtc = false });
+            }
+
+            var _resultPaged = await _customerService.GetPagedCustomersAsync(_validFilter.PageNumber, _validFilter.PageSize, cancellationToken, _expressionLambda, _validFilter.Fields, _validFilter.OrderBy);
+            return new ApiResponse<MetaData<ShapedEntityDTO>>(_mapper.Map<PagedList<ShapedEntityDTO>, MetaData<ShapedEntityDTO>>(new PagedList<ShapedEntityDTO>(_resultPaged, _validFilter.PageNumber, _validFilter.PageSize, _customerService.RowCount, _uriService, (string.IsNullOrEmpty(request.Fields)) ? "" : _validFilter.Fields, string.IsNullOrEmpty(request.OrderBy) ? "" : _validFilter.OrderBy, string.IsNullOrEmpty(request.Search) ? "" : _validFilter.Search, request.Route)));
+        }
+    }
 }

@@ -5,12 +5,12 @@ using CA.Domain.Features;
 
 namespace CA.Application.Validators
 {
-  public class DeleteAutoSaveCodeValue : AbstractValidator<DeleteCodeValueDTO>
-  {
-    public DeleteAutoSaveCodeValue()
+    public class DeleteAutoSaveCodeValue : AbstractValidator<DeleteCodeValueDTO>
     {
-      RuleFor(u => u.AutoSave).Cascade(CascadeMode.Stop)
-                              .Must(u => RegexExtensions.VerifyValue(u, @"^(?i)(true|false)$")).WithMessage("Formato de valor booleano incorrecto: solo 'true' o 'false'.");
+        public DeleteAutoSaveCodeValue()
+        {
+            RuleFor(u => u.AutoSave).Cascade(CascadeMode.Stop)
+                                    .Must(u => RegexExtensions.VerifyValue(u, @"^(?i)(true|false)$")).WithMessage("Formato de valor booleano incorrecto: solo 'true' o 'false'.");
+        }
     }
-  }
 }

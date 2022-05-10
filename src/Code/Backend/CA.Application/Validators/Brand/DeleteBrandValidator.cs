@@ -4,13 +4,13 @@ using CA.Domain.DTO;
 
 namespace CA.Application.Validators
 {
-  public class DeleteBrandValidator : AbstractValidator<DeleteBrandDTO>
-  {
-    public DeleteBrandValidator()
+    public class DeleteBrandValidator : AbstractValidator<DeleteBrandDTO>
     {
-      Include(new DeleteAccountIdBrand());
-      Include(new DeleteAutoSaveBrand());
-      Include(new DeleteIdBrand());
+        public DeleteBrandValidator()
+        {
+            Include(new DeleteAccountIdBrand());
+            Include(new DeleteAutoSaveBrand());
+            Include(new DeleteIdBrand());
+        }
     }
-  }
 }
