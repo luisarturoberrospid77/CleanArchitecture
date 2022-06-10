@@ -33,17 +33,25 @@ namespace CA.Infrastructure.Persistence.Repository.Base
             await _dbSet.SingleOrDefaultAsync(predicate, cancellationToken);
         public int GetCount() => _dbSet.Count();
         public int GetCount(Expression<Func<T, bool>> predicate) => _dbSet.Where(predicate).Count();
-        public async Task<IEnumerable<T>> AllAsync(CancellationToken cancellationToken = default, string orderBy = null) =>
+        public async Task<IEnumerable<T>> AllAsync(CancellationToken cancellationToken = default) =>
+            await _dbSet.ToListAsync(cancellationToken);
+        public async Task<IEnumerable<T>> AllAsync(string orderBy = null, CancellationToken cancellationToken = default) =>
             (!string.IsNullOrEmpty(orderBy)) ? await _dbSet.OrderBy(orderBy).ToListAsync(cancellationToken) : await _dbSet.ToListAsync(cancellationToken);
-        public async Task<IEnumerable<T>> AllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, string orderBy = null) =>
+        public async Task<IEnumerable<T>> AllAsync(Expression<Func<T, bool>> predicate, string orderBy = null, CancellationToken cancellationToken = default) =>
             (!string.IsNullOrEmpty(orderBy)) ? await _dbSet.OrderBy(orderBy).ToListAsync(cancellationToken) : await _dbSet.ToListAsync(cancellationToken);
-        public async Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, string orderBy = null) =>
+        public async Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) =>
+            await _dbSet.Where(predicate).ToListAsync(cancellationToken);
+        public async Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate, string orderBy = null, CancellationToken cancellationToken = default) =>
             (!string.IsNullOrEmpty(orderBy)) ? await _dbSet.Where(predicate).OrderBy(orderBy).ToListAsync(cancellationToken) : await _dbSet.Where(predicate).ToListAsync(cancellationToken);
-        public async Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, string orderBy = null) =>
-            (!string.IsNullOrEmpty(orderBy)) ? await _dbSet.OrderBy(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken) :
+        public async Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default) =>
+            await _dbSet.Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken);
+        public async Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize, string orderBy = null, CancellationToken cancellationToken = default) =>
+            (!string.IsNullOrEmpty(orderBy)) ?  await _dbSet.OrderBy(orderBy).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken) :
                                                 await _dbSet.Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken);
-        public async Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, string orderBy = null) =>
-            (!string.IsNullOrEmpty(orderBy)) ? await _dbSet.OrderBy(orderBy).Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken) :
+        public async Task<IEnumerable<T>> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate, string orderBy = null, CancellationToken cancellationToken = default) =>
+            (!string.IsNullOrEmpty(orderBy)) ?  await _dbSet.OrderBy(orderBy).Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken) :
                                                 await _dbSet.Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsNoTracking().ToListAsync(cancellationToken);
+
+
     }
 }

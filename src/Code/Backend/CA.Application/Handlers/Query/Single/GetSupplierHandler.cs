@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using MediatR;
+using AutoMapper;
 
 using CA.Domain.DTO;
 using CA.Application.Queries;
@@ -11,9 +12,11 @@ namespace CA.Application.Handlers.Query
 {
     public class GetSupplierHandler : IRequestHandler<GetSupplierQuery, SupplierDTO>
     {
+        private readonly IMapper _mapper;
         private readonly ISupplierService _supplierService;
-        public GetSupplierHandler(ISupplierService supplierService) => _supplierService = supplierService;
+        public GetSupplierHandler(ISupplierService supplierService, IMapper mapper) =>
+            (_supplierService, _mapper) = (supplierService, mapper);
         public async Task<SupplierDTO> Handle(GetSupplierQuery request, CancellationToken cancellationToken) =>
-            await _supplierService.FindSupplierAsync(request.Id, cancellationToken);
+            _mapper.Map<SupplierDTO>(await _supplierService.FindSupplierAsync(request.Id, cancellationToken));
     }
 }

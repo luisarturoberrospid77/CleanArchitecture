@@ -9,7 +9,7 @@ Backend Web API project in .NET Core 3.1 based on the <i>Clean Architecture soft
 * Documentation included in the <b>Docs folder</b> for understanding and improvements to the project.
 
 ### Topic:
-Concept of Pagination Data in Web API.
+Concept of Business Logic Layer in Web API.
 
 ### NOTES
 This project uses a freeware component of my authorship called [Utilities.Core.dll](https://www.nuget.org/packages/Utilities.Core.dll/), for this topic. You can check about this component at this [link](https://github.com/boraolim/Utilities.Core/blob/master/src/TestUtilitiesLibrary/Classes/Classsample.cs).
@@ -27,7 +27,7 @@ Proyecto de API web de backend en .NET Core 3.1 basado en el modelo de arquitect
 * Documentaci&oacute;n incluida en la carpeta <b>Docs</b> para el entendimiento y seguimiento del proyecto.
 
 ### Temática:
-Concepto de Paginación de Datos en Web API.
+Concepto de Lógica de Negocio en Web API.
 
 ### NOTA IMPORTANTE:
 Este proyecto usa un componente freeware de mi autoría llamado [Utilities.Core.dll](https://www.nuget.org/packages/Utilities.Core.dll/), para este tema. Pueden consultar acerca de este componente en este [enlace](https://github.com/boraolim/Utilities.Core/blob/master/src/TestUtilitiesLibrary/Classes/Classsample.cs).
@@ -40,4 +40,4 @@ Te invito a patrocinar este proyecto con tu donativo vía Paypal desde 1 USD en 
 **Autor:** OLIMPO BONILLA RAMIREZ.<br/>
 **Versi&oacute;n:** 1.0.24.6035 <br/>
 **Correo electr&oacute;nico:** [boraolim@hotmail.com](mailto:boraolim@hotmail.com)<br />
-**&Uacute;ltima actualizaci&oacute;n:** 11 de Mayo de 2022.
+**&Uacute;ltima actualizaci&oacute;n:** 9 de junio de 2022.

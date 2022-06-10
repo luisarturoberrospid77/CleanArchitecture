@@ -14,7 +14,7 @@
         <FileVersion>1.0.24.6035</FileVersion>
         <Company>Hogar S.A. de C.V.</Company>
         <Authors>Olimpo Bonilla Ramírez</Authors>
-        <Product>CA.Core.dll</Product>
+        <Product>CA.Domain.dll</Product>
         <Description>Clean Architecture Domain layer library for .NET Core 3.1.</Description>
         <Copyright>© Olimpo Bonilla Ramírez. 2016-2021. All rights reserved.</Copyright>
         <PackageReleaseNotes>Version: 1.0.24.6035. Date: 2022/04/07.</PackageReleaseNotes>
@@ -28,5 +28,6 @@
         <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="FluentValidation" Version="11.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 </Project>

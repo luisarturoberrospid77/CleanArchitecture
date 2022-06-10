@@ -18,8 +18,8 @@ using CA.Domain.Interfaces.Services.Base;
 
 namespace CA.Infrastructure.Persistence.Services.Base
 {
-    public abstract class RService<TQueryDTO, TKey, TEntity, TRepoRead, TContext> :
-        IRService<TQueryDTO, TKey, TEntity, TRepoRead, TContext>
+    public abstract class RService<TKey, TEntity, TRepoRead, TContext> :
+        IRService<TKey, TEntity, TRepoRead, TContext>
         where TEntity : class, IEntityBase<TKey>
         where TRepoRead : IReadRepository<TEntity, TContext>
         where TContext : DbContext, new()
@@ -32,61 +32,73 @@ namespace CA.Infrastructure.Persistence.Services.Base
         protected IMapper Mapper => _mapper;
         protected TRepoRead Repository => _repository;
         protected IUnitOfWork<TContext> UnitOfWork => _unitOfWork;
-        public RService(IMapper mapper, IUnitOfWork<TContext> unitOfWork, TRepoRead repository)
+        public RService(IMapper mapper,
+                        IUnitOfWork<TContext> unitOfWork, 
+                        TRepoRead repository)
         {
             _unitOfWork = Guard.Against.Null(unitOfWork, nameof(unitOfWork));
             _repository = Guard.Against.Null(repository, nameof(repository));
             _mapper = Guard.Against.Null(mapper, nameof(mapper));
         }
-        public async Task<TQueryDTO> FindAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<TEntity> FindAsync(int id, CancellationToken cancellationToken = default)
         {
             TEntity getEntity = await _repository.GetByIdAsync(id, cancellationToken);
 
             if (getEntity != null)
-                return Mapper.Map<TQueryDTO>(getEntity);
+                return getEntity;
             else
                 throw new EntityNotFoundException(typeof(TEntity), id);
         }
-        public async Task<TQueryDTO> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             TEntity getEntity = await _repository.FilterSingleAsync(predicate, cancellationToken);
 
             if (getEntity != null)
-                return Mapper.Map<TQueryDTO>(getEntity);
+                return getEntity;
             else
                 throw new EntityNotFoundException(typeof(TEntity));
         }
-        public async Task<IEnumerable<TQueryDTO>> FilterAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, cancellationToken);
+            return list;
+        }
+        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, string orderBy = null, CancellationToken cancellationToken = default)
+        {
+            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, orderBy, cancellationToken);
+            return list;
+        }
+        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
+        {
+            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetAllAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
-            IEnumerable<TEntity> list = await _repository.AllAsync(cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.AllAsync(orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
-            IEnumerable<TEntity> list = await _repository.AllAsync(predicate, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.AllAsync(predicate, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetPagedAsync(int pageNumber, int pageSize, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
             _iCount = _repository.GetCount();
 
@@ -99,15 +111,15 @@ namespace CA.Infrastructure.Persistence.Services.Base
             if (pageSize > 50)
                 throw new PageRowMaximumException(pageSize);
 
-            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>> predicate, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
             _iCount = _repository.GetCount(predicate);
 
@@ -120,13 +132,13 @@ namespace CA.Infrastructure.Persistence.Services.Base
             if (pageSize > 50)
                 throw new PageRowMaximumException(pageSize);
 
-            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, predicate, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, predicate, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
     }
 }

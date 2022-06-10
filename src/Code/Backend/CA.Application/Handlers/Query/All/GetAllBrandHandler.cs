@@ -54,7 +54,7 @@ namespace CA.Application.Handlers.Query
                 _expressionLambda = QueryBuilder.BuildExpressionLambda<Brand>(_newFilter, new BuildExpressionOptions() { ParseDatesAsUtc = false });
             }
 
-            var _resultPaged = await _brandService.GetPagedBrandsAsync(_validFilter.PageNumber, _validFilter.PageSize, cancellationToken, _expressionLambda, _validFilter.Fields, _validFilter.OrderBy);
+            var _resultPaged = await _brandService.GetPagedBrandsAsync(_validFilter.PageNumber, _validFilter.PageSize, _expressionLambda, _validFilter.Fields, _validFilter.OrderBy, cancellationToken);
             return new ApiResponse<MetaData<ShapedEntityDTO>>(_mapper.Map<PagedList<ShapedEntityDTO>, MetaData<ShapedEntityDTO>>(new PagedList<ShapedEntityDTO>(_resultPaged, _validFilter.PageNumber, _validFilter.PageSize, _brandService.RowCount, _uriService, string.IsNullOrEmpty(request.Fields) ? "" : _validFilter.Fields, string.IsNullOrEmpty(request.OrderBy) ? "" : _validFilter.OrderBy, string.IsNullOrEmpty(request.Search) ? "" : _validFilter.Search, request.Route)));
         }
     }

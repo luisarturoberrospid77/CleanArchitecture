@@ -18,8 +18,8 @@ using CA.Domain.Interfaces.Services.Base;
 
 namespace CA.Infrastructure.Persistence.Services.Base
 {
-    public abstract class CRUDService<TQueryDTO, TCommandDTO, TKey, TEntity, TRepoAll, TContext> :
-        ICRUDService<TQueryDTO, TCommandDTO, TKey, TEntity, TRepoAll, TContext>
+    public abstract class CRUDService<TCommandDTO, TKey, TEntity, TRepoAll, TContext> :
+        ICRUDService<TCommandDTO, TKey, TEntity, TRepoAll, TContext>
         where TEntity : class, IEntityBase<TKey>
         where TRepoAll : IBaseRepository<TEntity, TContext>
         where TContext : DbContext, new()
@@ -32,61 +32,146 @@ namespace CA.Infrastructure.Persistence.Services.Base
         protected IMapper Mapper => _mapper;
         protected TRepoAll Repository => _repository;
         protected IUnitOfWork<TContext> UnitOfWork => _unitOfWork;
-        public CRUDService(IMapper mapper, TRepoAll repository, IUnitOfWork<TContext> unitOfWork)
+        public CRUDService(IMapper mapper, 
+                           TRepoAll repository,
+                           IUnitOfWork<TContext> unitOfWork)
         {
             _repository = Guard.Against.Null(repository, nameof(repository));
             _mapper = Guard.Against.Null(mapper, nameof(mapper));
             _unitOfWork = Guard.Against.Null(unitOfWork, nameof(unitOfWork));
         }
-        public async Task<TQueryDTO> FindAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<TEntity> UpdateAsync(TCommandDTO objDTO, CancellationToken cancellationToken = default)
+        {
+            TEntity updatedEntity = await _repository.GetByIdAsync(Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id), cancellationToken);
+
+            if (updatedEntity == null)
+                throw new EntityNotFoundException(typeof(TEntity), Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id));
+
+            /* Mapper.Map(objDTO, updatedEntity); */
+            _repository.Update(updatedEntity);
+
+            /* Apply changes... */
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return updatedEntity;
+        }
+        public async Task<TEntity> UpdateAsync(TEntity entityObj, CancellationToken cancellationToken = default)
+        {
+            TEntity updatedEntity = await _repository.GetByIdAsync(Convert.ToInt32(entityObj.Id), cancellationToken);
+
+            if (updatedEntity == null)
+                throw new EntityNotFoundException(typeof(TEntity), Convert.ToInt32(entityObj.Id));
+
+            /* Mapper.Map(objDTO, updatedEntity); */
+            _repository.Update(updatedEntity);
+
+            /* Apply changes... */
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return updatedEntity;
+        }
+        public async Task<TEntity> InsertAsync(TCommandDTO objDTO, CancellationToken cancellationToken = default)
+        {
+            TEntity addEntity = Mapper.Map<TEntity>(objDTO);
+            await _repository.AddAsync(addEntity, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return addEntity;
+        }
+        public async Task<TEntity> InsertAsync(TEntity entityObj, CancellationToken cancellationToken = default)
+        {
+            await _repository.AddAsync(entityObj, cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return entityObj;
+        }
+        public async Task<TEntity> DeleteAsync(TCommandDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default)
+        {
+            TEntity deletedEntity = await _repository.GetByIdAsync(Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id), cancellationToken);
+
+            if (deletedEntity == null)
+                throw new EntityNotFoundException(typeof(TEntity), Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id));
+
+            if (autoSave)
+                _repository.Update(deletedEntity);
+            else
+                _repository.Delete(deletedEntity);
+
+            /* Apply changes... */
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return deletedEntity;
+        }
+        public async Task<TEntity> DeleteAsync(TEntity entityObj, bool autoSave = true, CancellationToken cancellationToken = default)
+        {
+            TEntity deletedEntity = await _repository.GetByIdAsync(Convert.ToInt32(entityObj.Id), cancellationToken);
+
+            if (deletedEntity == null)
+                throw new EntityNotFoundException(typeof(TEntity), Convert.ToInt32(entityObj.Id));
+
+            if (autoSave)
+                _repository.Update(deletedEntity);
+            else
+                _repository.Delete(deletedEntity);
+
+            /* Apply changes... */
+            await _unitOfWork.CommitAsync(cancellationToken);
+            return deletedEntity;
+        }
+        public async Task<TEntity> FindAsync(int id, CancellationToken cancellationToken = default)
         {
             TEntity getEntity = await _repository.GetByIdAsync(id, cancellationToken);
 
             if (getEntity != null)
-                return Mapper.Map<TQueryDTO>(getEntity);
+                return getEntity;
             else
                 throw new EntityNotFoundException(typeof(TEntity), id);
         }
-        public async Task<TQueryDTO> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             TEntity getEntity = await _repository.FilterSingleAsync(predicate, cancellationToken);
 
             if (getEntity != null)
-                return Mapper.Map<TQueryDTO>(getEntity);
+                return getEntity;
             else
                 throw new EntityNotFoundException(typeof(TEntity));
         }
-        public async Task<IEnumerable<TQueryDTO>> FilterAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, cancellationToken);
+            return list;
+        }
+        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, string orderBy = null, CancellationToken cancellationToken = default)
+        {
+            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, orderBy, cancellationToken);
+            return list;
+        }
+        public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
+        {
+            IEnumerable<TEntity> list = await _repository.FilterAsync(predicate, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetAllAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
-            IEnumerable<TEntity> list = await _repository.AllAsync(cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.AllAsync(orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
-            IEnumerable<TEntity> list = await _repository.AllAsync(predicate, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.AllAsync(predicate, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetPagedAsync(int pageNumber, int pageSize, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
             _iCount = _repository.GetCount();
 
@@ -99,15 +184,15 @@ namespace CA.Infrastructure.Persistence.Services.Base
             if (pageSize > 50)
                 throw new PageRowMaximumException(pageSize);
 
-            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
+            return list;
         }
-        public async Task<IEnumerable<TQueryDTO>> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, string fields = null, string orderBy = null)
+        public async Task<IEnumerable<TEntity>> GetPagedAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>> predicate, string fields = null, string orderBy = null, CancellationToken cancellationToken = default)
         {
             _iCount = _repository.GetCount(predicate);
 
@@ -120,50 +205,13 @@ namespace CA.Infrastructure.Persistence.Services.Base
             if (pageSize > 50)
                 throw new PageRowMaximumException(pageSize);
 
-            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, predicate, cancellationToken, orderBy);
+            IEnumerable<TEntity> list = await _repository.GetPagedAsync(pageNumber, pageSize, predicate, orderBy, cancellationToken);
 
             /* Limit query fields. */
             if (!string.IsNullOrWhiteSpace(fields))
                 list = list.AsQueryable().Select<TEntity>($"new({fields})");
 
-            return Mapper.Map<IEnumerable<TQueryDTO>>(list);
-        }
-        public async Task<TQueryDTO> UpdateAsync(TCommandDTO objDTO, CancellationToken cancellationToken = default)
-        {
-            TEntity updatedEntity = await _repository.GetByIdAsync(Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id), cancellationToken);
-
-            if (updatedEntity == null)
-                throw new EntityNotFoundException(typeof(TEntity), Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id));
-
-            Mapper.Map(objDTO, updatedEntity);
-            _repository.Update(updatedEntity);
-            await _unitOfWork.CommitAsync(cancellationToken);
-            return Mapper.Map<TQueryDTO>(updatedEntity);
-        }
-        public async Task<TQueryDTO> InsertAsync(TCommandDTO objDTO, CancellationToken cancellationToken = default)
-        {
-            TEntity addEntity = Mapper.Map<TEntity>(objDTO);
-            await _repository.AddAsync(addEntity, cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
-            return Mapper.Map<TQueryDTO>(addEntity);
-        }
-        public async Task<TQueryDTO> DeleteAsync(TCommandDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default)
-        {
-            TEntity deletedEntity = await _repository.GetByIdAsync(Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id), cancellationToken);
-
-            if (deletedEntity == null)
-                throw new EntityNotFoundException(typeof(TEntity), Convert.ToInt32(Mapper.Map<TEntity>(objDTO).Id));
-
-            if (autoSave)
-            {
-                Mapper.Map(objDTO, deletedEntity);
-                _repository.Update(deletedEntity);
-            }
-            else
-                _repository.Delete(deletedEntity);
-
-            await _unitOfWork.CommitAsync(cancellationToken);
-            return Mapper.Map<TQueryDTO>(deletedEntity);
+            return list;
         }
     }
 }

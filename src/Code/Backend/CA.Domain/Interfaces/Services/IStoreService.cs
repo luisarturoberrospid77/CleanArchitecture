@@ -13,11 +13,11 @@ namespace CA.Domain.Interfaces.Services
     public interface IStoreService
     {
         public int RowCount { get; }
-        Task<StoreDTO> FindStoreAsync(int id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<ShapedEntityDTO>> GetStoresAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null);
-        Task<IEnumerable<ShapedEntityDTO>> GetPagedStoresAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, Expression<Func<Store, bool>> predicate = null, string fields = null, string orderBy = null);
-        Task<CreateStoreDTO> InsertStoreAsync(CreateStoreDTO objDTO, CancellationToken cancellationToken = default);
-        Task<UpdateStoreDTO> UpdateStoreAsync(UpdateStoreDTO objDTO, CancellationToken cancellationToken = default);
-        Task<DeleteStoreDTO> DeleteStoreAsync(DeleteStoreDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
+        Task<Store> FindStoreAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetStoresAsync(Expression<Func<Store, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetPagedStoresAsync(int pageNumber, int pageSize, Expression<Func<Store, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<Store> InsertStoreAsync(CreateStoreDTO objDTO, CancellationToken cancellationToken = default);
+        Task<Store> UpdateStoreAsync(UpdateStoreDTO objDTO, CancellationToken cancellationToken = default);
+        Task<Store> DeleteStoreAsync(DeleteStoreDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
     }
 }

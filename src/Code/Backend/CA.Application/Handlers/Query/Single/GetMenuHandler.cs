@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using MediatR;
+using AutoMapper;
 
 using CA.Domain.DTO;
 using CA.Application.Queries;
@@ -11,9 +12,11 @@ namespace CA.Application.Handlers.Query
 {
     public class GetMenuHandler : IRequestHandler<GetMenuQuery, MenuDTO>
     {
-        private readonly IMenuService _menuService;
-        public GetMenuHandler(IMenuService menuService) => _menuService = menuService;
-        public async Task<MenuDTO> Handle(GetMenuQuery request, CancellationToken cancellationToken) =>
-            await _menuService.FindMenuOptionAsync(request.Id, cancellationToken);
+        private readonly IMapper _mapper; 
+        private readonly IMenuService _menuService; 
+        public GetMenuHandler(IMenuService menuService, IMapper mapper) =>
+            (_menuService, _mapper) = (menuService, mapper);
+        public async Task<MenuDTO> Handle(GetMenuQuery request, CancellationToken cancellationToken) => 
+            _mapper.Map<MenuDTO>(await _menuService.FindMenuOptionAsync(request.Id, cancellationToken));
     }
 }

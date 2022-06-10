@@ -13,11 +13,11 @@ namespace CA.Domain.Interfaces.Services
     public interface ICodeValueService
     {
         public int RowCount { get; }
-        Task<CodeValueDTO> FindCodeValueAsync(int id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<ShapedEntityDTO>> GetCodeValuesAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null);
-        Task<IEnumerable<ShapedEntityDTO>> GetPagedCodeValuesAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, Expression<Func<CodeValue, bool>> predicate = null, string fields = null, string orderBy = null);
-        Task<CreateCodeValueDTO> InsertCodeValueAsync(CreateCodeValueDTO objDTO, CancellationToken cancellationToken = default);
-        Task<UpdateCodeValueDTO> UpdateCodeValueAsync(UpdateCodeValueDTO objDTO, CancellationToken cancellationToken = default);
-        Task<DeleteCodeValueDTO> DeleteCodeValueAsync(DeleteCodeValueDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
+        Task<CodeValue> FindCodeValueAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetCodeValuesAsync(Expression<Func<CodeValue, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetPagedCodeValuesAsync(int pageNumber, int pageSize, Expression<Func<CodeValue, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<CodeValue> InsertCodeValueAsync(CreateCodeValueDTO objDTO, CancellationToken cancellationToken = default);
+        Task<CodeValue> UpdateCodeValueAsync(UpdateCodeValueDTO objDTO, CancellationToken cancellationToken = default);
+        Task<CodeValue> DeleteCodeValueAsync(DeleteCodeValueDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
     }
 }

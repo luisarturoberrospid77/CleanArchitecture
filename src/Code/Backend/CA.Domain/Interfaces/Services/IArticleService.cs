@@ -13,11 +13,11 @@ namespace CA.Domain.Interfaces.Services
     public interface IArticleService
     {
         public int RowCount { get; }
-        Task<ArticleDTO> FindArticleAsync(int id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<ShapedEntityDTO>> GetArticlesAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null);
-        Task<IEnumerable<ShapedEntityDTO>> GetPagedArticlesAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, Expression<Func<Article, bool>> predicate = null, string fields = null, string orderBy = null);
-        Task<CreateArticleDTO> InsertArticleAsync(CreateArticleDTO objDTO, CancellationToken cancellationToken = default);
-        Task<UpdateArticleDTO> UpdateArticleAsync(UpdateArticleDTO objDTO, CancellationToken cancellationToken = default);
-        Task<DeleteArticleDTO> DeleteArticleAsync(DeleteArticleDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
+        Task<Article> FindArticleAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetArticlesAsync(Expression<Func<Article, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetPagedArticlesAsync(int pageNumber, int pageSize, Expression<Func<Article, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<Article> InsertArticleAsync(CreateArticleDTO objDTO, CancellationToken cancellationToken = default);
+        Task<Article> UpdateArticleAsync(UpdateArticleDTO objDTO, CancellationToken cancellationToken = default);
+        Task<Article> DeleteArticleAsync(DeleteArticleDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
     }
 }

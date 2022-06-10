@@ -6,7 +6,6 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using AutoMapper;
-using Microsoft.Extensions.Options;
 
 using CA.Domain.DTO;
 using CA.Domain.DTO.Base;
@@ -22,7 +21,7 @@ using CA.Infrastructure.Persistence.Services.Base;
 
 namespace CA.Infrastructure.Common.Services
 {
-    public class BrandService : CRUDService<BrandDTO, CommandDTO, int,
+    public class BrandService : CRUDService<CommandDTO, int,
                                             Brand, IBrandRepository<PatosaDbContext>,
                                             PatosaDbContext>, IBrandService
     {
@@ -33,39 +32,39 @@ namespace CA.Infrastructure.Common.Services
                             IBrandRepository<PatosaDbContext> brandRepository,
                             IDataShapeHelper<BrandDTO> dataShapeHelper) : base(mapper, brandRepository, unitOfWork)
         { _dataShaperHelper = dataShapeHelper; }
-        public async Task<BrandDTO> FindBrandAsync(int id, CancellationToken cancellationToken = default) =>
-            await FindAsync(id, cancellationToken);
-        public async Task<IEnumerable<ShapedEntityDTO>> GetBrandsAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null) =>
-            await _dataShaperHelper.ShapeDataAsync(await GetAllAsync(cancellationToken, fields, orderBy), fields);
-        public async Task<IEnumerable<ShapedEntityDTO>> GetPagedBrandsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken, Expression<Func<Brand, bool>> predicate = null, string fields = null, string orderBy = null) =>
-            (predicate == null) ? await _dataShaperHelper.ShapeDataAsync(await GetPagedAsync(pageNumber, pageSize, cancellationToken, fields, orderBy), fields) :
-                                    await _dataShaperHelper.ShapeDataAsync(await GetPagedAsync(pageNumber, pageSize, predicate, cancellationToken, fields, orderBy), fields);
-        public async Task<CreateBrandDTO> InsertBrandAsync(CreateBrandDTO objDTO, CancellationToken cancellationToken = default)
+        public async Task<Brand> DeleteBrandAsync(DeleteBrandDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default)
         {
-            var ifExists = await FilterAsync(u => u.Name == objDTO.Name && u.IsDeleted == false);
-
-            if (ifExists.Count() > 0)
-                throw new EntityAlreadyExistException(objDTO.GetType(), objDTO.Name);
-            else
-                return Mapper.Map<CreateBrandDTO>(await InsertAsync(objDTO, cancellationToken));
-        }
-        public async Task<UpdateBrandDTO> UpdateBrandAsync(UpdateBrandDTO objDTO, CancellationToken cancellationToken = default)
-        {
-            var ifExists = await GetSingleAsync(u => u.Id == objDTO.Id & u.IsDeleted == false);
+            var ifExists = await FilterAsync(u => u.Id == objDTO.Id & u.IsDeleted == false, cancellationToken);
 
             if (ifExists == null)
                 throw new EntityNotFoundException(objDTO.Id.ToString());
             else
-                return Mapper.Map<UpdateBrandDTO>(await UpdateAsync(objDTO, cancellationToken));
+                return await DeleteAsync(objDTO, false, cancellationToken);
         }
-        public async Task<DeleteBrandDTO> DeleteBrandAsync(DeleteBrandDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default)
+        public async Task<Brand> FindBrandAsync(int id, CancellationToken cancellationToken = default) =>
+            await FindAsync(id, cancellationToken);
+        public async Task<IEnumerable<ShapedEntityDTO>> GetBrandsAsync(Expression<Func<Brand, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default) =>
+            await _dataShaperHelper.ShapeDataAsync(Mapper.Map<IEnumerable<BrandDTO>>(await GetAllAsync(predicate, fields, orderBy, cancellationToken)), fields);
+        public async Task<IEnumerable<ShapedEntityDTO>> GetPagedBrandsAsync(int pageNumber, int pageSize, Expression<Func<Brand, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default) => (predicate == null) ?
+                await _dataShaperHelper.ShapeDataAsync(Mapper.Map<IEnumerable<BrandDTO>>(await GetPagedAsync(pageNumber, pageSize, fields, orderBy, cancellationToken)), fields) :
+                await _dataShaperHelper.ShapeDataAsync(Mapper.Map<IEnumerable<BrandDTO>>(await GetPagedAsync(pageNumber, pageSize, predicate, fields, orderBy, cancellationToken)), fields);
+        public async Task<Brand> InsertBrandAsync(CreateBrandDTO objDTO, CancellationToken cancellationToken = default)
         {
-            var ifExists = await FilterAsync(u => u.Id == objDTO.Id & u.IsDeleted == false);
+            var ifExists = await FilterAsync(u => u.Name == objDTO.Name && u.IsDeleted == false, cancellationToken);
 
-            if (ifExists == null | ifExists.Count() == 0)
+            if (ifExists.Any())
+                throw new EntityAlreadyExistException(objDTO.GetType(), objDTO.Name);
+            else
+                return await InsertAsync(objDTO, cancellationToken);
+        }
+        public async Task<Brand> UpdateBrandAsync(UpdateBrandDTO objDTO, CancellationToken cancellationToken = default)
+        {
+            var ifExists = await GetSingleAsync(u => u.Id == objDTO.Id & u.IsDeleted == false, cancellationToken);
+
+            if (ifExists == null)
                 throw new EntityNotFoundException(objDTO.Id.ToString());
             else
-                return Mapper.Map<DeleteBrandDTO>(await DeleteAsync(objDTO, autoSave, cancellationToken));
+                return await UpdateAsync(objDTO, cancellationToken);
         }
     }
 }

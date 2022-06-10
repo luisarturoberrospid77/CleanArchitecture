@@ -22,6 +22,7 @@ namespace CA.Infrastructure.UnitOfWork.Base
         public async Task CreateTransactionAsync() => _objTran = await DbContext.Database.BeginTransactionAsync();
         public async Task CreateTransactionAsync(CancellationToken cancellationToken = default) =>
             _objTran = await DbContext.Database.BeginTransactionAsync(cancellationToken);
+
         #endregion "CreateTransaction"
 
         #region "Commit"
@@ -30,15 +31,19 @@ namespace CA.Infrastructure.UnitOfWork.Base
             await DbContext.SaveChangesAsync(cancellationToken);
         public async Task CommitAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default) =>
             await DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
         #endregion "Commit"
 
         #region "Rollback"
-        public void Rollback() { _objTran.Rollback(); _objTran.Dispose(); }
-        public async Task RollbackAsync() { await _objTran.RollbackAsync(); await _objTran.DisposeAsync(); }
+        public void Rollback()
+        { _objTran.Rollback(); _objTran.Dispose(); }
+        public async Task RollbackAsync()
+        { await _objTran.RollbackAsync(); await _objTran.DisposeAsync(); }
         public async Task RollbackAsync(CancellationToken cancellationToken = default)
         {
             await _objTran.RollbackAsync(cancellationToken); await _objTran.DisposeAsync();
         }
+
         #endregion "Rollback"
     }
 }

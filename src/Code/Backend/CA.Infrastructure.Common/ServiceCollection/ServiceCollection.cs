@@ -30,6 +30,12 @@ namespace CA.Infrastructure.Common.ServiceCollection
             services.AddTransient<ICustomerRepository<PatosaDbContext>, CustomerRepository>();
             services.AddTransient<ICountryRepository<PatosaDbContext>, CountryRepository>();
             services.AddTransient<ICountryDetailRepository<PatosaDbContext>, CountryDetailRepository>();
+            services.AddTransient<IAssignmentRepository<PatosaDbContext>, AssignmentRepository>();
+            services.AddTransient<IAssignmentDetailRepository<PatosaDbContext>, AssignmentDetailRepository>();
+            services.AddTransient<IPurchaseRepository<PatosaDbContext>, PurchaseRepository>();
+            services.AddTransient<IPurchaseDetailRepository<PatosaDbContext>, PurchaseDetailRepository>();
+            services.AddTransient<IOrderRepository<PatosaDbContext>, OrderRepository>();
+            services.AddTransient<IOrderDetailRepository<PatosaDbContext>, OrderDetailRepository>();
 
             /* Servicios. */
             services.AddTransient<IArticleService, ArticleService>();
@@ -45,6 +51,9 @@ namespace CA.Infrastructure.Common.ServiceCollection
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<ICountryService, CountryService>();
             services.AddTransient<ICountryDetailService, CountryDetailService>();
+            services.AddTransient<IPurchaseOrderService, PurchaseOrderService>();
+            services.AddTransient<ISaleOrderService, SaleOrderService>();
+            services.AddTransient<IAssignmentOrderService, AssignmentOrderService>();
 
             /* Helpers */
             services.AddSingleton<IUriService>(o =>

@@ -1,9 +1,9 @@
 ﻿using MediatR;
 
 using CA.Domain.DTO;
-using CA.Domain.Parameters;
-using CA.Domain.Wrappers;
 using CA.Domain.Custom;
+using CA.Domain.Wrappers;
+using CA.Domain.Parameters;
 using CA.Domain.Entities.Base;
 
 namespace CA.Application.Queries

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using MediatR;
+using AutoMapper;
 
 using CA.Domain.DTO;
 using CA.Application.Queries;
@@ -11,9 +12,11 @@ namespace CA.Application.Handlers.Query
 {
     public class GetCountryHandler : IRequestHandler<GetCountryQuery, CountryDTO>
     {
+        private readonly IMapper _mapper;
         private readonly ICountryService _countryService;
-        public GetCountryHandler(ICountryService countryService) => _countryService = countryService;
+        public GetCountryHandler(ICountryService countryService, IMapper mapper) =>
+            (_countryService, _mapper) = (countryService, mapper);
         public async Task<CountryDTO> Handle(GetCountryQuery request, CancellationToken cancellationToken) =>
-            await _countryService.FindCountryAsync(request.Id, cancellationToken);
+            _mapper.Map<CountryDTO>(await _countryService.FindCountryAsync(request.Id, cancellationToken));
     }
 }

@@ -11,24 +11,6 @@ namespace CA.Application.Mappings
     {
         public AutoMapperProfile()
         {
-            /* Mapping PagedList objects. */
-            CreateMap(typeof(PagedList<>), typeof(MetaData<>)).ConvertUsing(typeof(ConverterPaging<,>));
-
-            /* Mapping queries and parameters. */
-            CreateMap<GetAllArticleQuery, GetAllArticleParameter>().ReverseMap();
-            CreateMap<GetAllBrandQuery, GetAllBrandParameter>().ReverseMap();
-            CreateMap<GetAllCategoryQuery, GetAllCategoryParameter>().ReverseMap();
-            CreateMap<GetAllCodeNameSpaceQuery, GetAllCodeNameSpaceParameter>().ReverseMap();
-            CreateMap<GetAllCodeValueQuery, GetAllCodeValueParameter>().ReverseMap();
-            CreateMap<GetAllCountryDetailQuery, GetAllCountryDetailParameter>().ReverseMap();
-            CreateMap<GetAllCountryQuery, GetAllCountryParameter>().ReverseMap();
-            CreateMap<GetAllCustomerQuery, GetAllCustomerParameter>().ReverseMap();
-            CreateMap<GetAllMenuQuery, GetAllMenuParameter>().ReverseMap();
-            CreateMap<GetAllMovementArticleQuery, GetAllMovementArticleParameter>().ReverseMap();
-            CreateMap<GetAllStockArticleQuery, GetAllStockArticleParameter>().ReverseMap();
-            CreateMap<GetAllStoreQuery, GetAllStoreParameter>().ReverseMap();
-            CreateMap<GetAllSupplierQuery, GetAllSupplierParameter>().ReverseMap();
-
             /* Artículos. */
             CreateMap<Article, ArticleDTO>().ReverseMap();
             CreateMap<CreateArticleDTO, Article>().ReverseMap();
@@ -106,13 +88,52 @@ namespace CA.Application.Mappings
             CreateMap<DeleteSupplierDTO, Supplier>().ReverseMap();
             CreateMap<DeleteSupplierDTO, SupplierDTO>().ReverseMap();
 
+            /* Órdenes de compra a proveedor. */
+            CreateMap<Purchase, PurchaseDTO>().ForMember(s => s.PurchaseDetails, c => c.MapFrom(m => m.PurchaseDetails)).ReverseMap();
+            CreateMap<PurchaseDetailDTO, PurchaseDetail>().ReverseMap();
+            CreateMap<CreatePurchaseDTO, Purchase>().ReverseMap();
+            CreateMap<CreatePurchaseDTO, PurchaseDTO>().ReverseMap();
+            CreateMap<CreatePurchaseDetailDTO, PurchaseDetail>().ReverseMap();
+            CreateMap<CreatePurchaseDetailDTO, PurchaseDetailDTO>().ReverseMap();
+
+            /* Asignación de artículos a sucursal. */
+            CreateMap<Assignment, AssignmentDTO>().ForMember(s => s.AssignmentDetails, c => c.MapFrom(m => m.AssignmentDetails)).ReverseMap();
+            CreateMap<AssignmentDetailDTO, AssignmentDetail>().ReverseMap();
+            CreateMap<CreateAssignmentDTO, Assignment>().ReverseMap();
+            CreateMap<CreateAssignmentDTO, AssignmentDTO>().ReverseMap();
+            CreateMap<CreateAssignmentDetailDTO, AssignmentDetail>().ReverseMap();
+            CreateMap<CreateAssignmentDetailDTO, AssignmentDetailDTO>().ReverseMap();
+
+            /* Compra del cliente. */
+            CreateMap<Order, OrderDTO>().ForMember(s => s.OrderDetails, c => c.MapFrom(m => m.OrderDetails)).ReverseMap();
+            CreateMap<OrderDetailDTO, OrderDetail>().ReverseMap();
+            CreateMap<CreateSaleDTO, Order>().ReverseMap();
+            CreateMap<CreateSaleDTO, OrderDTO>().ReverseMap();
+            CreateMap<CreateSaleDetailDTO, OrderDetail>().ReverseMap();
+            CreateMap<CreateSaleDetailDTO, OrderDetailDTO>().ReverseMap();
+
             /* Usuarios (Pendiente...). */
 
-            /* Asignación de artículos a sucursal (Pendiente...). */
+            /* Mapping queries and parameters. */
+            CreateMap<GetAllArticleQuery, GetAllArticleParameter>().ReverseMap();
+            CreateMap<GetAllBrandQuery, GetAllBrandParameter>().ReverseMap();
+            CreateMap<GetAllCategoryQuery, GetAllCategoryParameter>().ReverseMap();
+            CreateMap<GetAllCodeNameSpaceQuery, GetAllCodeNameSpaceParameter>().ReverseMap();
+            CreateMap<GetAllCodeValueQuery, GetAllCodeValueParameter>().ReverseMap();
+            CreateMap<GetAllCountryDetailQuery, GetAllCountryDetailParameter>().ReverseMap();
+            CreateMap<GetAllCountryQuery, GetAllCountryParameter>().ReverseMap();
+            CreateMap<GetAllCustomerQuery, GetAllCustomerParameter>().ReverseMap();
+            CreateMap<GetAllMenuQuery, GetAllMenuParameter>().ReverseMap();
+            CreateMap<GetAllMovementArticleQuery, GetAllMovementArticleParameter>().ReverseMap();
+            CreateMap<GetAllStockArticleQuery, GetAllStockArticleParameter>().ReverseMap();
+            CreateMap<GetAllStoreQuery, GetAllStoreParameter>().ReverseMap();
+            CreateMap<GetAllSupplierQuery, GetAllSupplierParameter>().ReverseMap();
+            CreateMap<GetAllPurchaseQuery, GetAllPurchaseParameter>().ReverseMap();
+            CreateMap<GetAllAssignmentQuery, GetAllAssignmentParameter>().ReverseMap();
+            CreateMap<GetAllSaleOrderQuery, GetAllSaleOrderParameter>().ReverseMap();
 
-            /* Órdenes de compra a proveedor (Pendiente...). */
-
-            /* Compra del cliente (Pendiente...). */
+            /* Mapping complex objects. */
+            CreateMap(typeof(PagedList<>), typeof(MetaData<>)).ConvertUsing(typeof(ConverterPaging<,>));
         }
     }
 }

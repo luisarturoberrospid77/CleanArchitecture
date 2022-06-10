@@ -13,11 +13,11 @@ namespace CA.Domain.Interfaces.Services
     public interface ISupplierService
     {
         public int RowCount { get; }
-        Task<SupplierDTO> FindSupplierAsync(int id, CancellationToken cancellationToken = default);
-        Task<IEnumerable<ShapedEntityDTO>> GetSuppliersAsync(CancellationToken cancellationToken = default, string fields = null, string orderBy = null);
-        Task<IEnumerable<ShapedEntityDTO>> GetPagedSuppliersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default, Expression<Func<Supplier, bool>> predicate = null, string fields = null, string orderBy = null);
-        Task<CreateSupplierDTO> InsertSupplierAsync(CreateSupplierDTO objDTO, CancellationToken cancellationToken = default);
-        Task<UpdateSupplierDTO> UpdateSupplierAsync(UpdateSupplierDTO objDTO, CancellationToken cancellationToken = default);
-        Task<DeleteSupplierDTO> DeleteSupplierAsync(DeleteSupplierDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
+        Task<Supplier> FindSupplierAsync(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetSuppliersAsync(Expression<Func<Supplier, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<ShapedEntityDTO>> GetPagedSuppliersAsync(int pageNumber, int pageSize, Expression<Func<Supplier, bool>> predicate = null, string fields = null, string orderBy = null, CancellationToken cancellationToken = default);
+        Task<Supplier> InsertSupplierAsync(CreateSupplierDTO objDTO, CancellationToken cancellationToken = default);
+        Task<Supplier> UpdateSupplierAsync(UpdateSupplierDTO objDTO, CancellationToken cancellationToken = default);
+        Task<Supplier> DeleteSupplierAsync(DeleteSupplierDTO objDTO, bool autoSave = true, CancellationToken cancellationToken = default);
     }
 }
